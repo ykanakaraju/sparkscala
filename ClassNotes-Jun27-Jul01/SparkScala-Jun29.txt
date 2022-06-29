@@ -1,0 +1,1101 @@
+
+  Agenda (Spark using Scala)
+  --------------------------
+   -> Scala Refresher
+   -> Spark - Basics & Architecture
+   -> Spark Core API
+	-> RDD Transformations and Actions
+	-> Spark Shared Variable
+        -> Spark-Submit
+   -> Spark SQL
+	-> DataFrame Operations
+	-> Integration with MySQL & Hive
+	-> SQL Optimizations & Tuning
+   -> Spark Streaming
+	-> DStreams API (introduction)
+	-> Structured Streaming
+
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules
+	=> Class Notes
+	=> Github: https://github.com/ykanakaraju/sparkscala
+
+ 
+  Scala
+  ===== 
+     	=> SCAlable LAnguage
+	
+	=> Statically Typed Language
+		-> Data type os a variable is fixed at compile time.
+		-> Can not change the data type. 
+		
+	=> Scala is comiler-based language
+
+   	=> Scala is a multi-paradigm Programming Lang.
+		-> Scala is an OOP Lang
+		-> Scala is Functional Programming
+
+	=> Scala has type inference
+
+	=> Scala is a Pure object oriented language. 
+               -> Scala does not have primitives and operators
+
+        => Scala mutables and immutables
+		var => Multables: Can change  
+		val => Immutable: Can not change once assigned.
+
+		Scala prefers "Immutables"
+
+		val i = 10
+		i = 20  // Invalid
+	
+		var i = 10
+		i = 20  // Valid
+			
+
+     Scala Blocks
+     ------------
+	=> A block is a set of statements and expressions enclosed in  { }
+	=> A block has a return value 
+		-> The return value of the block is the value of the last statement/expression that
+		   is executed in that block.
+	
+		
+     Scala "Unit" => is a Class whose object represent "no value".
+		 => Printed as ()
+
+
+     Scala Flow Control Constructs
+     -----------------------------
+
+	=> if .. else if .. else
+        => match .. case
+
+	
+	=> if .. else consutruct returns a value
+	   The return value is the value if the last executed statement of the executed block. 
+
+		val x = 100
+    		val y = 150
+    		var z = 0
+    
+    		z = if ( x > y )  x - y  else if (x < y) y - x else x   
+
+        => match..case consutruct returns a value
+	   The return value is the value if the last executed statement of the executed block. 
+
+		x match {
+        		case 10 => z = 10
+        		case 20 => z = 20
+        		case a if (a % 2 == 0) => { z = 10 }
+        		case _ => { z = -1 }        
+    		} 
+
+		z = x match {
+       			case 10 => 10
+        		case 20 => 20
+        		case a if (a % 2 == 0) => {
+          			val i = 10
+          			val j = 20
+          			i + j + a
+        		}
+        		case _ => -1        
+    		}
+
+    Loop Constructs
+    ---------------
+
+	-> while
+	-> do .. while
+	-> foreach
+
+		<Iterable>.foreach(<function>)
+
+		"scala".foreach( x => println("x = " + x) ) 
+	-> for
+
+	for loop: 
+	---------
+
+		for ( i <- 1 to 10 ) {
+         		println(s"i: $i, j: $j")
+      		}
+
+		for ( i <- 1 to 10; j <- 1 to 10 by 2) {
+         		println(s"i: $i, j: $j")
+      		}
+
+		for ( i <- 1 to 10 if (i%2 != 0); j <- 1 to 10 by 2 ) {
+         		println(s"i: $i, j: $j")
+      		}
+
+		for ( i <- 1 to 10 if (i%2 != 0); j <- 1 to 10 by 2 if (i != j) ) {
+         		println(s"i: $i, j: $j")
+      		}
+
+		for comprehension
+		-----------------
+		val v1 = for ( i <- 1 to 10 if (i%2 != 0)) yield(i*10)      
+     		println( v1 )   // Returns Vector(10, 30, 50, 70, 90)
+
+
+    Range class
+    -----------
+	Range(start, end, step) => generates Int values from start to (end-1) with a step
+
+	Range(1, 10, 2) => 1,3,5,7,9
+	Range(20, 0, -3) => 20, 17, 14, 11, 8, 5, 2
+	Range(1, 10, -1) => empty
+	Range(1, 10) => 1,2,3,4,5,6,,7,8,9 (default step is 1)
+
+	1 to 10 	 => 1,2,3,4,5,6,7,8,9,10  (Range.inclusive)
+	1 until 10 	 => 1,2,3,4,5,6,7,8,9     (Range)
+
+	0 to 10 by 2	 => 0,2,4,6,8,10
+	0 until 10 by 2  => 0,2,4,6,8
+
+ 
+   Interpolators
+   -------------
+
+    s interpolator : s"x = $x, y = ${y + 10}"
+
+    f interpolator : s interpolator + interpolate formatting characters 
+		     f"x = $x%2.2f, y = $y%1.3f"
+
+    raw interpolator : s interpolator + escape the escape characters
+		  raw"x = $x%2.2f\ny = $y%1.3f"
+
+
+
+    Exception Handling
+    -------------------
+
+	try {
+		// some code that throws an exception
+	}
+	catch {
+	    case e: FileNotFoundException => {
+		   println( e.getMessage ) 
+		}
+
+	    case e: ArrayIndexOutOfBounds => { ... }
+            case e: Exception => { ... }
+	    case _ => { ... }
+	}
+	finally {
+	     // some code that is always executed
+	}
+
+
+   Getting started with Scala
+   ==========================
+
+     1. Using your vLab
+
+	  -> You connect to Windows server
+	  -> Double Click on the Oracle VM Virtualbox icon
+		-> Launch the Ubuntu VM
+		   -> Open a terminal
+		   -> Type "spark-shell"
+		   -> Launch "Scala-IDE" for eclipse
+
+     2. Setting up Scala development environment on your personal machine.
+
+	 2.1 Scala IDE
+
+	  	-> Make sure you have Java 8 (JDK 1.8.x)
+		  (run "java -version" command at command prompt)
+          	-> Download Scala IDE for Eclispe from http://scala-ide.org/download/sdk.html
+
+         2.2 IntelliJ
+		-> https://docs.scala-lang.org/getting-started/index.html
+
+		=> Community Edition: https://www.jetbrains.com/idea/download/#section=windows
+		=> Installing Scala Plug-in: https://www.jetbrains.com/help/idea/managing-plugins.html
+
+		=> Working with Scala on IntelliJ:
+		   -> https://docs.scala-lang.org/getting-started/intellij-track/building-a-scala-project-with-intellij-and-sbt.html
+
+
+     3. Using Databricks Community Edition Free account
+ 
+		Sign-up: https://databricks.com/try-databricks
+	  	Login: https://community.cloud.databricks.com/login.html
+
+
+
+     4. Using Online Scala Editors: https://scastie.scala-lang.org/pEBYc5VMT02wAGaDrfLnyw
+
+
+
+    Scala Class Heirarchy
+    ----------------------
+
+       Any   => AnyVal => Int, Long, Double, Boolean, CHar, Unit
+	     => AnyRef => String, List, Tuple, All other classes..
+
+
+    Collections
+    -----------
+	=> Array	  -> Mutable & Fixed Length
+	   ArrayBuffer	  -> Mutable & Variable Length
+
+	=> Seq  : Ordered Collections
+		  Elements can be invoked using an index.
+
+		 => IndexedSeq : Optimized for random-access of data
+			-> Range, Vector
+
+		 => LinearSeq : Optimized for sequential-access (loops)
+				These are linked lists
+			-> List, Queue, Stream
+
+	=> Set  : Unordered collection of unique objects
+
+	=> Map : Is a collection of (Key, Value) pair
+
+
+   Reading from File
+   -----------------
+
+	val lines = scala.io.Source.fromFile( <filePath> ).getLines.toSeq
+
+
+    Option[U]
+    ---------
+
+	=> Represents a object which may or may not have a value.
+	=> Returns Some[U] if value is present
+		   None if value is not present
+	
+
+    Methods
+    --------
+	=> A method is a executable code block
+
+	=> Methods can be called using positional parameter
+	=> Methods can be called using named parameter
+	=> methods can have multiple parameter lists
+	=> Methods parameter can have one variable-lengh arguments and it has to be last argument.
+	=> Method parameters can have default values.
+	=> Methods can be called recusivly (recursive method)
+
+
+    Procedures
+    ----------
+	=> Are like mathods, but they always return Unit
+
+
+	def box(s: String) {
+       	     val border = "-" * s.length() + "----"       
+       	     println( border + "\n| " + s + " |\n" + border )
+    	}
+
+    Functions
+    ---------
+	=> Function are treated as literals
+		Function literal: (a: Int, b: Int) => { a + b }
+	=> Functions are anonymous by nature
+	=> Function can be assigned to a variable
+
+        Function literal				Type
+	----------------------------------------------------------------
+	(a: Int, b: Int) => a + b			(Int, Int) => Int
+	(s: String) => s.toUpperCase			String => String
+	(a: Int, b: String) => b * a			(Int, String) => String
+	() =>  "Windows 10"				() => String
+	(s: String) => print(s)				String => Unit
+	(a: (Int, Int), b: Int) => (a._1+b, a._2+b)     ((Int, Int), Int) => (Int, Int)
+
+	=> A function can be passed as a parameter to a method or function
+	=> A block can return a function as a final value.
+	=> A method / function can return a function as an output.
+
+	def compute(op: String) = {
+            op match {
+         	case "+" => (a : Int, b: Int) => a + b
+          	case "-" => (a : Int, b: Int) => a - b
+          	case "*" => (a : Int, b: Int) => a * b
+          	case _ => (a : Int, b: Int) => a % b
+             }
+     	}
+
+
+   Higher Order Functions (HOF)
+   ----------------------
+    A HOF is a method or function that takes a function as a parameter or returns a function as a return value.
+
+    1. map			P: U => V
+   				Transforms each object of the input collection to a different object by appying 
+				the function
+				input: N object, output: N object 
+
+		 l1.map(x => x > 8)
+		 lines.map( s => s.split(" ") )
+
+    2. filter			P: U => Boolean 
+				Only those objects for which the function returns true will be in the output. 
+				input: N object, output: <= N object 
+
+		lines.filter(x => x.split(" ").length > 8)
+
+    3. reduceLeft, reduceRight	P: (U, U) => U 
+				Reduces the entire collection to one final value of the same time by iterativly
+				applying the function.
+
+		List(3,2,4,3,5,6).reduceLeft( (x, y) => x - y )
+    		3,2,4,3,5,6 => 1,4,3,5,6 => -3,3,5,6 => -6,5,6 => -11,6 => -17
+
+		List(3,2,4,3,5,6).reduceRight( (x, y) => x - y )
+		3,2,4,3,5,6 => 3,2,4,3,-1 => 3,2,4,4 => 3,2,0 => 3,2 => 1		
+
+		List[U].reduceLeft( (U,U) => U ) => U
+
+		l2.reduceLeft( (x, y) => ( ((if (x._1 > y._1) x._1 else y._1), (if (x._2 > y._2) x._2 else y._2)) ))
+
+
+    4. flatMap			P: U => GenTraversableOnce[V]  (fn output should be a collection object)
+				flatMap flattens the function output to constituent elements.
+				input: N object, output: >= N object 
+
+				List[U].flatMap( U -> List[V] ) => List[V]
+
+				val words = lines.flatMap(x => x.split(" "))
+
+
+   5. sortWith			P: binary sorting function
+				Elements of th collection are sorted based on the binary sorting function.  
+				input: N object, output: N object 
+
+			words.sortWith( (x, y) => x(0) < y(0) )
+
+   6. groupBy			P: U => V
+				Elements of the input collection are grouped based on the function output.
+				Returns a Map object where:
+					key : unique function output
+					value: Collection containing elements that produced the key
+
+			l2.groupBy(x => x._2)
+			words.groupBy(x => x).toList.map(x => (x._1, x._2.length)).sortWith((x, y) => x._1 < y._1)
+
+
+   7. foldLeft & foldRight	=> reduces the entire collection to a type that is different that the type of objects
+
+			Two parameters as param-list
+			
+			1. zero-value : starting value of the type of output you want as output
+			2. Sequence Function : is a function that iterativly merges all the objects of the 
+			   collection with the zero-value. 
+
+			List[U].foldLeft( (V, U) => V )  => V	
+				
+		l1.foldRight( (0,0) )( (v, z) => (z._1 + v, z._2 + 1) )
+
+
+  8. mapValues		 	=> P: U => V
+				   Operates only on Map objects
+				   Will transform only the 'value' part of the key-value pairs.
+
+		 m1.mapValues( x => x.length )
+
+
+  Assignments 
+  ===========
+	=> Write a method to print the first N numbers in the fibonnaci series
+	   function: printFib	
+		printFib(7) => 1, 1, 2, 3, 5, 8, 13
+
+        => Write a method to print the first N prime numbers		
+	   function: printPrimes
+		printPrimes(7) => 2, 3, 5, 7, 11, 13, 17
+
+  Use-Case
+  ========
+   WordCount: Fetch the frequency of each unique word in a given text file.
+
+   val output = Source.fromFile("E:\\Spark\\wordcount.txt")
+                      .getLines()
+                      .toList
+                      .flatMap(x => x.split(" "))
+                      .groupBy(x => x)
+                      .mapValues(x => x.length)
+                      .toSeq
+                      .sortWith((a, b) => a._2 > b._2)
+
+  ========================================================
+       Spark
+  ========================================================
+
+    -> Spark is written in 'Scala'
+  
+    -> Spark is an in-memory distributed computing framework for big data analytics
+       using well-defined programming constructs. 
+
+    -> Spark is a Unifed Framework
+
+         Spark provides a consistent set of APIs for processing different analytics workloads
+	 based on the same execution engine.
+
+	   => Batch Processing of unstructured data	: Spark Core API
+	   => Batch Processing of structured data	: Spark SQL
+	   => Stream processing (real-time)		: Structured Streaming, DStreams API
+	   => Predictive analytics (using ML)		: Spark MLlib
+           => Graph parallel computations		: Spark GraphX
+
+     -> Spark is a polyglot
+	  -> Spark apps can be written in : Scala, Java, Python, R (and SQL)
+	
+
+    Spark Architecture and Building Blocks
+    --------------------------------------    
+       1. Cluster Manager
+		-> Jobs are submitted to CMs
+		-> Allocates containers for lauching driver and executors on the cluster. 
+		-> Spark supports multiple CMs
+			-> local, standalone, YARN, Mesos, Kubernetes		
+
+	2. Driver
+		-> Master process
+		-> Runs the SparkContext object
+		-> Manages the user code and sends the tasks to the executors as per the code. 
+
+		Deploy Modes:
+		1. Client : default, driver runs on the client. 
+		2. Cluster : driver runs on one of the nodes on the cluster.
+
+	3. SparkContext
+		-> Is an application context
+		-> Starting point of execution
+		-> Is the link between the driver and tasks running on the executors
+
+	4. Executors
+		-> receives the tasks from the Driver
+		-> all tasks runs the same execution code but on different partitions of the data
+		-> the status of tasks os reported to the driver.
+
+
+   Getting started with Spark
+   --------------------------	
+	Popular Options : 
+	
+	=> Scale-IDE for Eclipse + Maven
+		=> Add required dependencies from Central maven repo
+		=> The required packges are download and added to your project.
+	=> IntelliJ + SBT
+
+        Central maven repository: https://mvnrepository.com/ (search for Spark)
+
+	Downloading "winutils.exe" to your local directory
+		=> Create the following folder: C:\hadoop\bin
+		=> Download an appropriate version of winutils.exe from the following url;
+			https://github.com/steveloughran/winutils
+
+
+   Spark Core API
+   --------------
+	=> Is Spark's low-level API
+		-> reponsible for memort-management, job-scheduling, fault-tolerence  etc.
+
+        => The data is processed as RDDs.
+	=> Used to process unstructured data.
+
+     
+   RDD (Resilient Distributed Data)
+   ---------------------------------
+
+	=> Is a collection of distributed in-memory partitions
+		-> Each partition is a collection of objects of some type. 
+
+	=> RDDs are immutable
+		-> Once created, data of the partitions can not be changed.
+
+	=> RDDs are lazily evaluated.
+		-> Transformations does not cause execution. 
+		-> Execution is triggered by action command.
+
+        => RDDs can recreate missing in-memory partitions on the fly.
+
+
+   Creating RDDs
+   -------------
+	Three ways:
+
+	1. Create an RDD from some external data source (such as a text file)
+
+		val rddFile = sc.textFile("E:\\Spark\\wordcount.txt", 4)
+
+		val rddFile = sc.textFile("E:\\Spark\\wordcount.txt")
+		=> The number of partitions is given by the value of "sc.defaultMinPartitions"
+
+	2. Create an RDD from programmatic data (such as a Scala collection)
+
+		val rdd1 = sc.parallelize( List(4,2,1,6,4,5,7,8,9,0,4,3,6,5,7,8,9,0,7,5,6,7,4), 3 )
+
+		val rdd1 = sc.parallelize( List(4,2,1,6,4,5,7,8,9,0,4,3,6,5,7,8,9,0,7,5,6,7,4), 3 )
+		=> The number of partitions is given by the value of "sc.defaultParallelism"
+		   (equal to number of cores allocated)
+
+
+	3. By applying transformations on existing RDDs.
+
+	NOTE: rdd1.getNumPartitions give the number of partitions of rdd1.
+
+
+   RDD Operations
+   ---------------
+    
+	Two operations:
+
+	1. Transformations	
+		-> Returns an RDD
+		-> Does not cause execution
+		-> Transformation only create RDD Lineage DAGs
+
+        2. Actions
+		-> Trigger execution of the RDD
+		-> Produces output
+		-> Converts thr logical Plan into a physical execution plan.
+
+   
+   RDD Lineage DAG
+   ---------------
+
+     rdd1.toDebugString => prints the lineage of rdd1.
+    
+     RDD Lineage is a logical plan that tracks the tasks to be performed to compute the RDD partitions
+     It has the heirarchy of dependent RDD all the way upto the very first RDD. 
+
+	
+	 val rddFile = sc.textFile("E:\\Spark\\wordcount.txt", 4)
+
+(4) E:\Spark\wordcount.txt MapPartitionsRDD[5] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[4] at textFile at <console>:24 []
+
+	val rddWords = rddFile.flatMap(x => x.split(" "))
+
+(4) MapPartitionsRDD[9] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[5] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[4] at textFile at <console>:24 []
+
+	val rddPairs = rddWords.map(x => (x, 1))
+
+(4) MapPartitionsRDD[10] at map at <console>:25 []
+ |  MapPartitionsRDD[9] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[5] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[4] at textFile at <console>:24 []
+
+
+   	val rddWc = rddPairs.reduceByKey((a, b)=>a+b)
+
+(4) ShuffledRDD[11] at reduceByKey at <console>:25 []
+ +-(4) MapPartitionsRDD[10] at map at <console>:25 []
+    |  MapPartitionsRDD[9] at flatMap at <console>:25 []
+    |  E:\Spark\wordcount.txt MapPartitionsRDD[5] at textFile at <console>:24 []
+    |  E:\Spark\wordcount.txt HadoopRDD[4] at textFile at <console>:24 []
+
+
+  Types of Transformations
+  -------------------------
+	1. Narrow Transformations
+	    -> Does not cause shuffling of the data from one partition to other partitions
+	    -> Partition to partition transformations
+	    -> The output RDD will have the same number of partitions as input RDD
+
+	2. Wide Transformation
+	    -> Causes shuffling of the data
+	    -> One output partition may need data from multiple input partitions
+	    -> The output RDD may have different number of partitions than input RDD 
+
+
+  RDD Persistence
+  ---------------	
+	val rdd1 = sc.textFile(.....)
+	val rdd2 = rdd1.t2(..)
+	val rdd3 = rdd1.t3(..)
+	val rdd4 = rdd3.t4(..)
+	val rdd5 = rdd3.t5(..)
+	val rdd6 = rdd5.t6(..)
+	rdd6.persist(StorageLevel.MEMORY_AND_DISK)   ===> instruction to Spark to save RDD6 partitions.
+	val rdd7 = rdd6.t7(..)
+
+	rdd6.collect()
+	
+	Lineage of rdd6:  rdd6 -> rdd5.t6 -> rdd3.t5 -> rdd1.t3 -> sc.textFile
+		(textFile, t3, t5, t6) => collect
+
+	rdd7.collect()
+	
+	Lineage of rdd7:  rdd7 -> rdd6.t7
+		(t7) => collect
+
+        rdd6.unpersist()
+
+
+	Storage Levels
+	--------------
+	   Storage Formats => Serialized Format    (byte-streaming)
+			      Deserialized Format  (object-format)
+
+	   1. MEMORY_ONLY	  : (default) Memory Deserialized 1x Replicated
+	   2. MEMORY_AND_DISK	  : Disk Memory Deserialized 1x Replicated
+	   3. DISK_ONLY		  : Disk Serialized 1x Replicated
+	   4. MEMORY_ONLY_SER     : Memory Serialized 1x Replicated
+	   5. MEMORY_AND_DISK_SER : Disk Memory Serialized 1x Replicated
+	   6. MEMORY_ONLY_2	  : Memory Deserialized 2x Replicated
+	   7. MEMORY_AND_DISK_2	  : Disk Memory Deserialized 2x Replicated
+	
+				   
+       Commands
+       --------
+	   => rdd1.cache()    => in-memory persistence  (MEMORY_ONLY)
+	   => rdd1.persist()  => in-memory persistence  (MEMORY_ONLY)
+	   => rdd1.persist(StorageLevel.MEMORY_AND_DISK)
+
+	   => rdd1.unpersist()
+
+
+   Execution memory structure
+   --------------------------
+
+	Reference URL: https://spark.apache.org/docs/latest/configuration.html
+
+	Let us assume, we request executors with 10 GB RAM.
+	
+	-> Cluster Manager allocates exectors with 10.3 GB RAM
+
+	1. Reserved Memory  : 300 MB
+		-> Spark's internal usage. 
+
+	2. Spark Memory (spark.memory.fraction: 0.6) => 6 GB
+		-> Used for RDD execution and storage
+
+		2.1 Execution Memory
+			-> Used for execution of RDD tasks and creating RDD partitions. 
+
+		2.2 Storage Memory (spark.memory.storageFraction = 0.5)  => 3 GB
+			-> Used for RDD persistence and storing broadcast variables.
+
+            -> Storage memory can not evict execution memory even if execution memory is
+               using more than its 3 GB limit. It has to wait until more memory becomes 
+	       available.
+
+	    -> Execution memory can evict some partitions from storage, if it requires more
+	       memory. But, it can evict only excess portion that is used by storage beyond its
+ 	       3 GB limit. 
+
+	3. User Memory (1 - spark.memory.fraction = 0.4) => 4 GB
+		-> Used for user code (Python/Scala/Java etc)
+
+
+  RDD Transformations
+  -------------------
+
+   1. map			P: U => V
+				Object to Object transformation
+				input RDD: N objects, Output RDD: N objects
+
+		rddWords.map( _.length ).collect
+		rddFile.map(x => x.split(" ")).collect
+		rddArr.map( a => a.map( _.toUpperCase ) ).collect()
+
+  2. filter			P: U => Boolean
+				Only those object for which the function returns true will be there in the output.
+				input RDD: N objects, Output RDD: <= N objects
+
+		rddWords.filter( x => x(0) == 'r' ).collect
+ 
+  3. glom			P: None
+				Return one Array object with all the elements of each partition.
+				input RDD: N objects, Output RDD: = number of partitions
+
+		rdd1			     rdd2 = rdd1.glom()
+		P0: 2,4,1,4,5,6,7 -> glom -> P0: Array(2,4,1,4,5,6,7)
+		P1: 9,0,5,7,8,1,6 -> glom -> P1: Array(9,0,5,7,8,1,6)
+		P2: 6,5,8,9,0,5,0 -> glom -> P2: Array(6,5,8,9,0,5,0)
+
+		rdd1.count = 21 (Int)		rdd2.count = 3 (Array[Int])
+
+   4. flatMap			P: U => TraversableOnce[V]
+				flatMap flattens the iterable produced by function.
+				input RDD: N objects, Output RDD: >= N object
+
+		rddFile.flatMap(x => x.split(" "))
+
+   5. mapPartitions		P: Iterator[U] => Iterator[V]
+				partition to partition transformation
+
+		rdd1		rdd1.mapPartitions( p => List(p.max).iterator )
+		P0: 2,4,1,4,5,6,7 -> mapPartitions -> P0: 7
+		P1: 9,0,5,7,8,1,6 -> mapPartitions -> P1: 9
+		P2: 6,5,8,9,0,5,0 -> mapPartitions -> P2: 9
+
+		rdd1.mapPartitions( p => p.map(x => x%2 == 0) ).glom.collect
+
+
+   6. mapPartitionsWithIndex	P: ( Int, Iterator[U] ) => Iterator[V]
+				Similar to mapPartitions, but you get partition-index as an additional 
+				function parameter.
+
+		rdd1.mapPartitionsWithIndex( (i, p) => if (i == 1) p else List().iterator ).collect
+
+   7. distinct			P: None, Optional: numPartitions
+				Returns distinct elements of the input RDD into the output RDD.
+
+		rddWords.flatMap(x => x).distinct.collect
+
+   Types of RDDs
+   -------------
+	1. Generic RDDs : RDD[U]
+	2. Pair RDDs    : RDD[(U, V)]
+
+
+   8. mapValues			P: U => V
+				Applied only on pair RDDs
+				Transforms the value part of the pair RDD by applying the function
+
+		rdd2.mapValues( x => (x,x) ).collect
+
+   9. sortBy			P: U => V,   Optional: ascending (true/false), numPartitions
+				The objects (of the output RDD) are sorted based on the function output
+
+		rddWc.sortBy(x => x._2).collect
+		rddWc.sortBy(x => x._2, false).collect
+		rdd1.sortBy(x => x%4, true, 2).glom.collect
+
+  10. groupBy			P: U => V, Optional: numPartitions
+				Returns a Pair RDD, where 
+				    key: Each unique value of the function output
+				    value: CompactBuffer with the objects that produced the key
+
+				RDD[U].groupBy(U => V) => RDD[(V, CompactBuffer[U])]
+  
+ 		rdd1.groupBy(x => x%5, 2).glom.collect
+
+		 val rdd1 = sc.textFile("E:\\Spark\\wordcount.txt")
+                   	.flatMap(x => x.split(" "))
+                   	.groupBy( x => x )
+                  	.mapValues( x => x.toList.length )
+
+
+  11. randomSplit		P: Array of weights (e.g: Array(0.6, 0.4)), Optional: seed
+				Returns an array of RDDs split randomly in the specified weights.
+
+		val rddArr = rdd1.randomSplit( Array(0.5, 0.5))
+		val rddArr = rdd1.randomSplit( Array(0.5, 0.5), 53345 )  //53345 is a seed
+
+  12. repartition		P: numPartition	
+				Is used to increase or decrease the number of output partitions
+				Performs global shuffle
+
+  13. coalesce 			P: numPartition	
+				Is only decrease the number of output partitions
+				Performs partition merging
+
+	Recommandations (Databricks)
+	-----------------------------
+	1. The size of the partition should be around 128 MB
+	2. The number of partitions should be a multiple of number of CPU cores allocated
+	3. If the number of partitions is less than but close to 2000, bump it up to 2000
+	4. The number of cores in each executor should be 5
+
+
+  14. union, intersection, subtract, cartesian
+				
+		Let us say, rdd1 has M partitions and rdd2 has N partitions
+
+		command					number of output partitions
+                --------------------------------------------------------------------
+		rdd1.union(rdd2)			M + N, narrow
+		rdd1.intersection(rdd2)			bigger of M & N, wide
+		rdd1.subtract(rdd2)			M (equal to input RDDs partitions), wide
+		rdd1.cartesian(rdd2)			M * N	
+
+
+  15. partitionBy		P: partitioner
+				Applied only to pair RDDs
+				Partitioning happens based on the 'key'
+				Is used to control which data goes to which partition.
+
+		Built-in partitioners:
+
+		1. Range Partitioner
+
+			val rangePartitioner = new RangePartitioner(5, rdd)    
+    			val partitionedRdd = rdd.partitionBy(rangePartitioner)
+
+		2. Hash Partitioner
+
+			val hashPartitioner = new HashPartitioner(3)    
+    			val partitionedRdd = rdd.partitionBy(hashPartitioner)
+
+		3. Custom partitioner
+			=> User can define custom partitioning logic.
+
+
+
+
+  ..ByKey Transformation
+  ----------------------
+	=> Wide transformations
+	=> Applied only to Pair RDDs
+
+  16. sortByKey			P: None, Optional: ascending (true/false), numPartitions
+				Sorts the objects of the RDD based on the key.
+
+		rddPairs.sortByKey().collect()
+		rddPairs.sortByKey(false).collect()
+		rddPairs.sortByKey(false, 4).collect()
+
+  17. groupByKey		P; None, Optional: numPartitions
+				Returns a Pair where with unique-keys and grouped values.
+				
+                *** NOTE: AVOID groupByKey, if you can ***
+
+ 		val rdd1 = sc.textFile("E:\\Spark\\wordcount.txt")
+                   	.flatMap(x => x.split(" "))
+                   	.map(x => (x, 1) )
+                   	.groupByKey()
+                   	.mapValues(x => x.sum)
+                   	.sortByKey()
+
+  18. reduceByKey		P: (U, U) -> U
+				Reduce all the values of each unique key to one value of the same type
+
+		val rdd1 = sc.textFile("E:\\Spark\\wordcount.txt", 4)
+                   	.flatMap(x => x.split(" "))
+                   	.map(x => (x, 1) )
+                   	.reduceByKey( (a, b) => a + b )
+                   	.sortByKey(true, 1)
+
+  19. aggregateByKey	       => Used to reduce all the values of each unique key to a type which is different
+				  than the type of the value part of  K, v) pairs
+
+			 RDD[U] => aggregate => V
+
+			 Three parameters (mandatory):
+
+			 1. zero-value : starting value of the type of the output you want to produce
+			 2. Sequence Function: merges all the objects of the RDD in each partition with the zero
+				   -> produces one output (of the type of ZV) per partition
+			 3. Combine Function: reduces the outputs each partition to one final value.
+
+			 4. (optional) : numPartitions
+
+	val students_list = List(
+  		("Aditya", "Maths", 83), ("Aditya", "Physics", 74), ("Aditya", "Chemistry", 91), ("Aditya", "English", 82), 
+  		("Amrita", "Maths", 69), ("Amrita", "Physics", 62), ("Amrita", "Chemistry", 97), ("Amrita", "English", 80), 
+  		("Pranav", "Maths", 78), ("Pranav", "Physics", 73), ("Pranav", "Chemistry", 68), ("Pranav", "English", 87), 
+  		("Keerti", "Maths", 87), ("Keerti", "Physics", 93), ("Keerti", "Chemistry", 91), ("Keerti", "English", 74), 
+  		("Harsha", "Maths", 56), ("Harsha", "Physics", 65), ("Harsha", "Chemistry", 71), ("Harsha", "English", 68), 
+  		("Anitha", "Maths", 86), ("Anitha", "Physics", 62), ("Anitha", "Chemistry", 75), ("Anitha", "English", 83), 
+  		("Komala", "Maths", 63), ("Komala", "Physics", 69), ("Komala", "Chemistry", 64), ("Komala", "English", 60))
+  
+      def seqFn(z: (Int, Int), v: Int) =  (z._1 + v, z._2 + 1) 
+      def combFn(a: (Int, Int), b: (Int, Int)) = (a._1 + b._1, a._2 + b._2)           
+           
+       val rdd1 = sc.parallelize(students_list, 3)
+                    .map( t => (t._1, t._3) )
+                    .aggregateByKey((0,0))(seqFn, combFn)
+                    .mapValues( x => x._1.toDouble / x._2 ) 
+                    
+                    
+       rdd1.collect().foreach( println )
+
+
+    20. joins => join, leftOuterJoin, rightOuterJoin, fullOuterJoin
+		Joins two piar RDDs with same type of key.
+
+		RDD[(K, V)].join( RDD[(K, W)] ) => RDD[ (K, (V,W)) ]
+
+
+		RDD[(String, Int)].join( RDD[(String, String)] ) => RDD[ (String, (Int,String)) ]
+		RDD[(String, Int)].leftOuterjoin( RDD[(String, String)] ) => RDD[ (String, (Int, Option[String])) ]
+
+    21. cogroup			=> groupByKey -> fullOuterJoin
+
+			rdd1:  (key1,1), (key2,2), (key3,2), (key2,2), (key1,3), (key5,5)
+
+
+			rdd2:  (key1,5), (key2,4),(key4,4),(key2,4),(key3,8)
+
+			rdd1.cogroup(rdd2)
+				(key4,(CompactBuffer(),CompactBuffer(4)))
+				(key5,(CompactBuffer(5),CompactBuffer()))
+				(key2,(CompactBuffer(2, 2),CompactBuffer(4, 4)))
+				(key3,(CompactBuffer(2),CompactBuffer(8)))
+				(key1,(CompactBuffer(1, 3),CompactBuffer(5)))
+
+ RDD Actions 
+ -----------
+
+   1. collect
+
+   2. count
+
+   3. saveAsTextFile
+
+   4. reduce		  P: (U, U) => U
+			  Reduces an entire RDD into one fincal of the "same type" by iterativly
+			  running the reduce function.
+
+			 RDD[U] => reduce => U
+		rdd1
+		P0: 7, 3, 4, 2, 1, 4, 4	    -> reduce -> 25 -> reduce => 102
+		P1: 6, 7, 8, 9, 0, 8, 9	    -> reduce -> 47
+		P2: 0, 5, 6, 7, 5, 4, 3, 0  -> reduce -> 30
+
+   5. aggregate		 Used to reduce an entire RDD to a type which is different then type of the RDD
+
+			 RDD[U] => aggregate => V
+
+			 Three parameter:
+
+			 1. zero-value : starting value of the type of the output you want to produce
+			 2. Sequence Function: merges all the objects of the RDD in each partition with the zero
+				   -> produces one output (of the type of ZV) per partition
+			 3. Combine Function: reduces the outputs each partition to one final value.
+					
+
+   6. first
+
+   7. take
+
+   8. takeOrdered
+		rdd1.takeOrdered(10)
+		rdd1.takeOrdered(10)(Ordering[Int].reverse)
+
+   9. takeSample
+		rdd1.takeSample(true, 10)   	 // with replacement sampling
+		rdd1.takeSample(true, 10, 466)   // 466 is a seed
+
+		dd1.takeSample(false, 10)   	 // with out replacement sampling
+		rdd1.takeSample(false, 10, 466)   // 466 is a seed
+
+   10. countByValue
+
+   11. countByKey
+
+   12. forEach	P: some function
+		Runs the function on all objects of the RDD.
+
+ 		rdd10.foreach(x => println(s"key: ${x._1}, value: ${x._2}"))
+
+   13. saveAsSequenceFile
+
+   14. saveAsObjectFile
+
+
+
+   Closure
+   =======
+      A closure in Spark constitues all the variables and methods that must be visible inside a executor
+      for the tasks to perform their operation on RDDs. 
+   
+      The driver serializes this code and separate copy of closure is sent to every executor.
+
+             
+              var c = 0     // counter
+
+	      def isPrime(n: Int) : Boolean = (2 until n).forall(x => n % x != 0)
+
+	      def f1(n: Int) = {
+		   if ( isPrime(n) ) c += 1
+                   n * 2
+	      }
+
+              val rdd1 = sc.parallelize( 1 to 4000, 4 )
+	      val rdd2 = rdd1.map( f1 )
+
+	      rdd2.collect()
+
+              println(s"Number of primes: $c")    // c = 0
+
+
+          Limitation: Local variables can not be used to implement global counter.
+	  Solution:  Use "Accumulator" variable
+      
+
+   Shared Variables
+   ================
+
+	Two Shared Variables:
+
+	1. Accumulator Variable
+	
+	    -> is a shared variable
+	    -> is not part of Closure, hence not a local copy at task level
+	    -> All the tasks can add to this one copy.
+	    -> Maintained by the driver
+	    -> Used to implement global counters. 
+
+	      var c = sc.longAccumulator("counter")
+
+	      def isPrime(n: Int) : Boolean = (2 until n).forall(x => n % x != 0)
+
+	      def f1(n: Int) = {
+		   if ( isPrime(n) ) c.add(1)
+                   n * 2
+	      }
+
+              val rdd1 = sc.parallelize( 1 to 4000, 4 )
+	      val rdd2 = rdd1.map( f1 )
+
+	      rdd2.collect()
+
+              println(s"Number of primes: ${c.value}")    // c = 0
+
+
+	2. Broadcast Variable
+
+		=> A large immutable collection (such as a lookup table) can be broadcasted to every executor
+		   node instead of having that as a closure variable. 
+
+		=> This saves a lot of execution memory as we have only one copy per node (instead of per task)
+
+	
+		case class Emp(id: Int) { ... }	
+
+		val m1 : Map[Int, Emp] = Map( 1 -> Emp(1), 2 -> Emp(2), 3 -> Emp(3), ... )    // 100 MB
+
+		val bcM1 = sc.broadcast( m1 )
+
+		def getEmp( id: Int ) : Emp => bcM1.value( id )
+
+		val rdd1 : Int = sc.parallelize( List(1,2,3,4,5,6,7,8, ....), 2 )
+
+		val rdd2 : Emp = rdd1.map( getEmp )
+
+		rdd2.collect()
+   
+   ================================================
+       Spark-Submit command
+   ================================================
+   		
+	=> Is a single command that is used to submit any spark application (Scala, Java, Python, R)
+           to submit to any cluster manager (local, standalone scheduler, YARN, Mesos, Kubernetes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
