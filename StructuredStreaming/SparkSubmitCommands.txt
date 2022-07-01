@@ -1,0 +1,51 @@
+
+NOTE: Use spark-3.1.3-bin-hadoop3.2
+
+cd spark-3.1.3-bin-hadoop3.2
+
+
+#-------------------------------------------------------
+# Socket streams
+#-------------------------------------------------------
+bin/spark-submit --master local[2] --class socket.SocketConsoleWordCount1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class socket.SocketConsoleWordCount2 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class socket.SocketConsoleWordCount3 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class socket.SocketConsoleWordCount4 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+bin/spark-submit --master local[2] --class socket.SocketCSV1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class socket.SocketJSON1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+#-------------------------------------------------------
+# File streams
+#-------------------------------------------------------
+bin/spark-submit --master local[2] --class file.CSVConsole1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class file.JSONConsole1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class file.JSONtoCSV /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class file.CSVtoJSON /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+#-------------------------------------------------------
+# Rate streams
+#-------------------------------------------------------
+bin/spark-submit --master local[2] --class rate.RateConsole1 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+bin/spark-submit --master local[2] --class rate.RateCSV /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+bin/spark-submit --master local[2] --class rate.RateKafka --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+bin/spark-submit --master local[2] --class rate.RateForEachBatch --packages mysql:mysql-connector-java:8.0.19,org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+#-------------------------------------------------------
+# Kafka 
+#-------------------------------------------------------
+
+    # kafka console producer command
+    bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic t1 --property parse.key=true --property key.separator=":"
+    # kafka console consumer command
+    bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic t1 --property print.key=true --property key.separator=" - "
+        
+bin/spark-submit --master local[2] --class kafka.KafkaConsole --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.3 /home/kanak/spark-scala-projects/StructuredStreaming/target/SS-1.jar
+
+
+
+
+
+
