@@ -1,0 +1,266 @@
+
+  Agenda (Spark using Scala)
+  --------------------------
+   -> Scala Refresher
+   -> Spark - Basics & Architecture
+   -> Spark Core API
+	-> RDD - Transformations and Actions
+	-> Spark Shared Variable
+        -> Spark-Submit
+   -> Spark SQL
+	-> DataFrame Operations
+	-> Integration with MySQL & Hive
+	-> SQL Optimizations & Tuning
+   -> Spark Streaming
+	-> DStreams API (introduction)
+	-> Structured Streaming
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules
+	=> Class Notes
+	=> Github: https://github.com/ykanakaraju/sparkscala
+
+  Scala
+  -----
+	
+   -> Scala is Java based compiler language
+        -> Scala compiles to Java byte code
+	-> Interoperable with Java language
+	
+    -> Scala is multi-paradigm programming language	
+	 -> Pure OOP language
+         -> Functional programming language
+
+    -> Pure OOP language
+	 -> Scala does not have primitive and operator
+
+   -> Scala Variables: immutables -> val
+		       mutable    -> var
+
+   -> Scala infers the type automatically based on the assigned value.
+
+   -> Scala infix notation : 
+		
+	val j = i.+(10)  can be written in scala as:
+	val j = i + 10
+
+   -> Scala is a statically typed language
+	-> The type of every object/variable is know at compile time. 
+	-> Once assigned a type can not be changed. 
+
+  Blocks
+  ------
+
+	-> One or more statements enclosed in { .. }
+	    -> If there is only one statement/expression then you may omit the { .. }
+	-> A block returns an ouput
+	    -> The output is the value of the last statement that is executed in the block.
+	-. Scala does not use "return" keyword
+
+  Unit
+  ----
+	-> Is a class that represents 'no value'
+        -> Printed as "()"  	
+
+  Flow Control Statements
+  -----------------------
+
+   if..else
+   ----------
+
+	if (<boolean>) { ... }
+	else if (<boolean>) { ... }
+	else { ...}
+
+	=> If statement in Scala, retruns a value
+
+   match..case
+   -----------
+	
+	 output = i match {
+     		case 10 => "ten"
+     		case 20 => "twenty"
+     		case _ if (i % 2 == 0) => "even number"
+     		case _  => "default output" 
+  	}
+  
+
+   Scala Class Hierarchy
+   ---------------------
+
+	Any => AnyVal => Int, Long, Float, Double, Boolean, Unit, Byte, Char
+            => AnyRef => String, <all other classes>
+
+
+   Range
+   -----
+	Is a collection which store the starting value, end value and a step.
+
+	Range(1, 10)       => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 2)    => 1,3,5,7,9
+	Range(100, 0, -20) => 100,80,60,40,20
+	Range(1, 10, -2)   => Empty 
+
+	1 to 10 by 2       => 1, 3, 5, 7, 9
+	100 to 0 by -20	   => 100,80,60,40,20,0   ('to' returns Range.Inclusive)
+        100 until 0 by -20 => 100,80,60,40,20,0 
+	     
+   Loops
+   -----
+   1. while
+
+	var i = 0
+   
+   	while( i < 10 ) {
+     	   println(s"i = $i")     
+     	  i = i + 1     
+   	}
+
+   2. do while
+
+	 do {
+           println(s"i = $i")     
+          i = i + 1     
+        } while( i < 10 )
+
+   3. foreach
+
+	<collection>.foreach( fn )
+
+	function "fn" is executes on all the objects of the collection.
+
+	def f1(i: Int) = { println(i) }    
+    	List(1,2,3,4,5,6,7,8,9).foreach( f1 )
+
+   4. for 
+
+	for( <generator(s)> ) {
+        }
+
+	for( x <- 1 to 10 by 2 ){
+      		println(x)
+    	}
+
+	for( x <- 1 to 10 by 2; y <- 1 to 20 by 4){
+      	    println(x, y)
+        }
+
+        for( x <- 1 to 10 by 2 if (x != 5); y <- 1 to 20 by 4 if (y > x)){
+           println(x, y)
+        }
+
+        for comprehension: Collects the data looped by for loop using "yield" function and returns a collection.  
+
+		val v1 = for( x <- 1 to 10 by 2 if (x != 5); y <- 1 to 20 by 4 if (y > x)) yield( (x, y) )
+		println( v1 )
+
+		Output:
+		Vector((1,5), (1,9), (1,13), (1,17), (3,5), (3,9), (3,13), (3,17), (7,9), (7,13), (7,17), (9,13), (9,17))
+
+
+
+   Interpolators
+   --------------
+      => Interpolator evaluates a string.
+
+	1. 's' interpolator
+		s"x = $x, x+1 = ${x+1}, y = $y"
+
+        2. 'f' interpolator  => s interpolator + fromatting chars
+		f"x = $x%1.1f, x+1 = ${x+1}, y = $y"
+
+        3. 'raw' interpolator => will escape the escape chars
+
+		val filePath = raw"E:\Spark\new\wordcount.txt"
+
+  Exception Handling
+  ------------------
+	try {
+	    // write you that could throw an exception. 
+	}
+	catch {		
+	   case e1: FileNotFoundException => { .... }
+           case e2: ArrayIndexOutOfBoundsException => { .... }
+	   case _:Exception => { .... }
+	}
+	finally {
+	    // write code that is always executed.
+	}
+       
+
+   Getting started with Scala
+   --------------------------
+
+     1. Working in your vLab
+	   => Follow the instructions on the attached document that you receive by email.
+           => You log into a Ubuntu/CentOS VM
+	   => You can launch Scala Shell & can start Scala IDE
+
+      2. Installing Scala IDE on your personal machine. 
+
+	  2.1 Scala IDE for eclipse
+
+	  	=> Make sure you have Java 8 (jdk 1.8 or up) installed.
+
+	  	=> Download and extract Scala IDE for eclispe from the following url link:
+			http://scala-ide.org/download/sdk.html
+	     	=> Nivagate inside the extracted folder (such as scala-SDK-4.7.0-vfinal-2.12-win32.win32.x86_64)
+			and click in 'scala ide' icon to launch the IDE.
+
+	  2.2 IntelliJ
+
+		Instruction on how to install and setup IntelliJ for Scala are described here:
+		https://docs.scala-lang.org/getting-started/index.html (near to 'Open hello-world project')
+
+      3. Signup to Databricks community account
+		=> https://www.databricks.com/try-databricks
+
+      4. Online Scala Compilers
+		https://scastie.scala-lang.org/
+
+
+   Setting up a Scala Project in Scala IDE
+   ---------------------------------------
+
+
+   
+  Methods
+  -------
+    -> Callable/reusable code block
+
+
+	def add(a: Int, b: Int) : Int = {
+		a + b
+	}
+
+  
+		
+	
+
+  	
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+ 
+
+
+
+
+
+
+
+
+
