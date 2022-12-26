@@ -1,0 +1,216 @@
+
+  Agenda
+  -------
+
+  Scala - refresher
+     	Basics	
+	Functional programming concepts
+  Spark 
+	Basics & Architecture
+	Core API -> RDD (basics)
+	Spark SQL (DataFrames)
+	Spark Streaming
+  Kafka
+	Architecture
+	Topic Operations
+	Producer API
+	Consumer API
+  NiFi
+	Basics Concepts
+	3 or 4 different integrations.
+
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules
+	=> Class Notes
+	=> Git Hub: https://github.com/ykanakaraju/sparkscala
+
+
+  Using your lab
+  ---------------
+
+	-> Connect to the Windows server using the credentials got in the email
+	-> Check out the word doc for other credentials (on the desktop)
+	-> Click on the "Oracle VM Vitualbox" icon (desktop)
+	-> Select the Vm ans click on the 'Start' button
+	-> Enter your userid and password. 
+
+	Spark Shell
+        ----------
+	-> Open the Terminal window
+	-> Type "spark-shell"
+
+	Launching Scala IDE
+	-------------------
+	-> Open the "ScalaIDE" folder on the desktop
+	-> Open the "eclipse" folder
+        -> Click on the 'eclipse' application icon (blue diamond)
+	
+ 
+  Scala
+  -----
+    
+    Scala stands for SCAlable LAnguage
+	
+    Scala is a multi-paradigm programming language.
+  
+	-> Scala is a PURE OOP
+		-> Scala has no primitives
+		-> Scala has no operators
+
+	-> Scala is a Functional programming language
+
+    Scala immutables and mutables:
+
+	 	val i : Int = 10  => immutable
+		var i : Int = 10  => mutable
+
+    Scala Type inference:
+
+	  -> Scala can automatically infer the type based on the value assigned to it.
+
+    Scala is statically typed language
+	-> The type of every object is known at compile time.
+	-> Once declared, the type of an object can not be changed.
+
+    Blocks
+
+	-> Set of expressions enclosed in { .. } is a block
+  	-> Every block returns a value
+
+    Unit
+	Is a class that represents "no value"
+	Printed as "()"
+
+	
+   Getting started with Scala
+   ---------------------------
+	1. Using you Lab
+
+	2. Installing Scala IDE on your local environment
+	      URL: http://scala-ide.org/download/sdk.html
+
+	      => Ensure you are running JDK 1.8 or up (Java 8)
+	      => Download the zip file from the above URL
+              => Unzip/extract it, navigate to eclispe folder.
+      
+        3. Using Databricks community edition
+		URL: https://www.databricks.com/try-databricks
+
+
+  String Interpolations 
+  ----------------------
+
+	s intepolator:  val a = s"x = ${x + 10}, y = $y"
+	f intepolator:  val a = f"x = ${x + 10}, y = $y%2.2f"
+	raw intepolator: escapes the escape sequences in the string
+		val filepPath = raw"E:\CTS\newfile.txt"
+
+
+  Control-Flow statements
+  -----------------------
+
+    if..else if..else
+    ------------------
+
+	-> if..else can return a value.
+
+	val z = if (x > y) x - y else if (x < y) y - x else 0
+
+    match..case
+    ------------
+
+    	val z = x match {
+          case 10 => { "ten" }
+          case 20 => { "twenty" }
+          case a if (x % 2 == 0) => { s"even number ($a)" }
+          case a if (x % 2 != 0) => { s"odd number ($a)" }
+          case _ => { "none of the above" }
+        }
+ 
+  
+
+  Scala Class Hierarchy
+  ---------------------
+	
+	Any   	=> AnyVal   => Int, Long, Double, Float, Bool, Unit, Char, Byte ...
+		=> AnyRef   => String, List, Seq, Map, .....
+
+  Range
+  -----  	
+	Range(1, 10)        => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 3)     => 1,4,7
+	Range(100, 10, -20) => 100, 80, 60, 40, 20
+	1 to 10             => 1,2,3,4,5,6,7,8,9,10   (Range.Inclusive)
+	1 until 10          => 1,2,3,4,5,6,7,8,9
+	0 to 10 by 2	    => 0,2,4,6,8,10
+	0 until	10 by 2     => 0,2,4,6,8
+	10 until 1          => Empty Range  (no elements)
+
+  Loops
+  -----
+
+    => while loop
+
+		while(i < x) {
+      		    println(i)
+      		    i += 1
+    		}
+
+    => do..while
+
+		do {
+      		   println(i)
+      		   i += 1
+    	        } while(i < x)
+
+
+    => foreach
+
+	   <Iterable>.foreach( function )
+
+		(1 to 10).foreach( x => println(s"x=$x") )    
+    		"SCALA LANGUAGE".foreach(println)
+
+   => for
+
+	for( <one or more generators> ) {
+               <some code>
+        }
+
+	   for( x <- 0 until 10 by 2) {
+         	println(s"x = $x")
+     	   }
+
+	   for( x <- 0 until 10 by 2; y <- "scala") {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for comprehension
+	   -----------------
+		 for producing a collection (Vector object) from a for loop:
+
+		 val v = for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) yield( (x, y) )
+		 println( v )
+
+		 Result: (2,0), (2,1), (4,0), (4,1), (4,2), (4,3), (8,0), (8,1), (8,2), (8,3), (8,4), (8,5), (8,6), (8,7)
+
+
+   
+
+
+
+
+
+
+
+
+
+
+   
