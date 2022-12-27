@@ -1,0 +1,489 @@
+
+  Agenda
+  -------
+
+  Scala - refresher
+     	Basics	
+	Functional programming concepts
+  Spark 
+	Basics & Architecture
+	Core API -> RDD (basics)
+	Spark SQL (DataFrames)
+	Spark Streaming
+  Kafka
+	Architecture
+	Topic Operations
+	Producer API
+	Consumer API
+  NiFi
+	Basics Concepts
+	3 or 4 different integrations.
+
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules
+	=> Class Notes
+	=> Git Hub: https://github.com/ykanakaraju/sparkscala
+
+
+  Using your lab
+  ---------------
+
+	-> Connect to the Windows server using the credentials got in the email
+	-> Check out the word doc for other credentials (on the desktop)
+	-> Click on the "Oracle VM Vitualbox" icon (desktop)
+	-> Select the Vm ans click on the 'Start' button
+	-> Enter your userid and password. 
+
+	Spark Shell
+        ----------
+	-> Open the Terminal window
+	-> Type "spark-shell"
+
+	Launching Scala IDE
+	-------------------
+	-> Open the "ScalaIDE" folder on the desktop
+	-> Open the "eclipse" folder
+        -> Click on the 'eclipse' application icon (blue diamond)
+	
+ 
+  Scala
+  -----
+    
+    Scala stands for SCAlable LAnguage
+	
+    Scala is a multi-paradigm programming language.
+  
+	-> Scala is a PURE OOP
+		-> Scala has no primitives
+		-> Scala has no operators
+
+	-> Scala is a Functional programming language
+
+    Scala immutables and mutables:
+
+	 	val i : Int = 10  => immutable
+		var i : Int = 10  => mutable
+
+    Scala Type inference:
+
+	  -> Scala can automatically infer the type based on the value assigned to it.
+
+    Scala is statically typed language
+	-> The type of every object is known at compile time.
+	-> Once declared, the type of an object can not be changed.
+
+    Blocks
+
+	-> Set of expressions enclosed in { .. } is a block
+  	-> Every block returns a value
+
+    Unit
+	Is a class that represents "no value"
+	Printed as "()"
+
+	
+   Getting started with Scala
+   ---------------------------
+	1. Using you Lab
+
+	2. Installing Scala IDE on your local environment
+	      URL: http://scala-ide.org/download/sdk.html
+
+	      => Ensure you are running JDK 1.8 or up (Java 8)
+	      => Download the zip file from the above URL
+              => Unzip/extract it, navigate to eclispe folder.
+      
+        3. Using Databricks community edition
+		URL: https://www.databricks.com/try-databricks
+
+
+  String Interpolations 
+  ----------------------
+
+	s => Allows you to invoke variables using $ sybmol
+		ex: val str = f"i = $i\nj = $j\nk = $k"
+
+	f => s interpolator + can use formatting symbols
+		ex: val str = f"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+        raw => s interpolator + escapes the escape chars
+		val str = raw"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+
+  Control-Flow statements
+  -----------------------
+
+    if..else if..else
+    ------------------
+
+	-> if..else can return a value.
+
+	val z = if (x > y) x - y else if (x < y) y - x else 0
+
+    match..case
+    ------------
+
+    	val z = x match {
+          case 10 => { "ten" }
+          case 20 => { "twenty" }
+          case a if (x % 2 == 0) => { s"even number ($a)" }
+          case a if (x % 2 != 0) => { s"odd number ($a)" }
+          case _ => { "none of the above" }
+        }
+ 
+  
+
+  Scala Class Hierarchy
+  ---------------------
+	
+	Any   	=> AnyVal   => Int, Long, Double, Float, Bool, Unit, Char, Byte ...
+		=> AnyRef   => String, List, Seq, Map, .....
+
+  Range
+  -----  	
+	Range(1, 10)        => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 3)     => 1,4,7
+	Range(100, 10, -20) => 100, 80, 60, 40, 20
+	1 to 10             => 1,2,3,4,5,6,7,8,9,10   (Range.Inclusive)
+	1 until 10          => 1,2,3,4,5,6,7,8,9
+	0 to 10 by 2	    => 0,2,4,6,8,10
+	0 until	10 by 2     => 0,2,4,6,8
+	10 until 1          => Empty Range  (no elements)
+
+  Loops
+  -----
+
+    => while loop
+
+		while(i < x) {
+      		    println(i)
+      		    i += 1
+    		}
+
+    => do..while
+
+		do {
+      		   println(i)
+      		   i += 1
+    	        } while(i < x)
+
+
+    => foreach
+
+	   <Iterable>.foreach( function )
+
+		(1 to 10).foreach( x => println(s"x=$x") )    
+    		"SCALA LANGUAGE".foreach(println)
+
+    => for
+
+	for( <one or more generators> ) {
+               <some code>
+        }
+
+	   for( x <- 0 until 10 by 2) {
+         	println(s"x = $x")
+     	   }
+
+	   for( x <- 0 until 10 by 2; y <- "scala") {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for comprehension
+	   -----------------
+		 for producing a collection (Vector object) from a for loop:
+
+		 val v = for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) yield( (x, y) )
+		 println( v )
+
+		 Result: (2,0), (2,1), (4,0), (4,1), (4,2), (4,3), (8,0), (8,1), (8,2), (8,3), (8,4), (8,5), (8,6), (8,7)
+
+    Scala Imports
+    -------------
+
+	import Source.io.File
+	import Source.io._
+	import java.io.{FileReader, FileNotFoundException, IOException}
+
+
+   Exception handling
+   -------------------
+	try {
+		some code that might through an exception
+         }
+         catch {
+	     case e: ArrayIndexOutofBoundsException => {
+	     }
+             case f: FileNotFoundException => {
+             }
+	     case _ => {
+             }
+         }
+         finally {
+	     // code that executes after try/catch blocks
+         }
+
+      Example
+      --------------
+
+      try {
+         println("Reading from a file ...")   
+         val f = new FileReader("file1456.txt")            
+      } 
+      catch {
+         case ex: FileNotFoundException => {
+            println("Missing file exception")
+            println( ex.getMessage() )
+         }         
+         case _: IOException => {
+            println("IO Exception")
+         }
+         case _: Exception => {
+            println("generic exception")
+         }
+      } 
+      finally {
+         println("Exiting finally...") 
+      }  
+
+
+
+   Methods
+   -------
+	-> Reusable code block that return some value
+	-> Method will have a name and optionally some parameters/arguments
+
+	-> NOTE: note that we are using an "=" symbol
+
+	def sum(a: Int, b: Int) : Int = {
+        	a + b
+     	}
+	
+	-> methods can take 0 or more arguments                
+	-> Methods can be called by positional parameters
+	-> Methods can be called by named parameters
+
+	val x = sum(10, 20)		// positional params
+	val x = sum(b=10, a=20)   	// named params
+
+
+	-> Method arguments can have default values	
+
+	def sum(a: Int, b: Int, c: Int = 0) = {       
+        	println( s"a = $a, b = $b, c = $c" )    
+        	a + b + c
+     	}
+
+        -> Methods can have variable length arguments
+	  
+		 def sum(a: Int, i: Int*) = {       
+       			var s = 0 
+       
+       			for (x <- i){
+         			println(s"x = $x")
+         			s += x
+       			}
+       
+       			a + s
+     		}
+    
+     		val x = sum(10, 20, 30, 40, 50)
+	
+		-> In this example, i represents [20, 30, 40, 50]
+
+	-> methods can call themselves within the code. (recursive methods)
+
+		def factorial(n: Int) : Int = {
+        		if ( n == 1 ) n
+        		else n * factorial(n - 1)
+      		}
+
+         -> methods can take multiple parameter lists
+
+		def sum(a: Int, b: Int)(c: Int)(d: Int) = (a + b)*c*d    
+    		val x = sum(10, 20)(5)(2)
+
+
+   Procedures
+   ----------
+	-> Are like methods but does not return any value.
+	-> A procedure always return "Unit" irrespective of the return type of the block
+	-> Procedure does not have the = symbol in the defintion
+
+	def box(name: String) {       
+        	val line = "-" * name.length() + "----"
+        	println( line + "\n| " + name.toUpperCase  + " |\n" + line)        
+     	}
+     
+     	box("scala is a programming language")
+
+  function
+  --------
+       -> In Functional programming, a 'function' is like a literal.
+       -> A function has a value and type of its own.
+       -> Functions are anonymous by default
+       -> A function can be assigned to a variable (named functions)
+       -> A function can be passed as a parameter to a method/function
+       -> A block can return a function as final value
+       -> A method can return a function as return value
+
+	def m1(a: Int, b: Int, c: String, f: (String, Int) => String ) = {
+            f(c, b) + ":" + a
+        }
+  
+        val n = m1(10, 15, "*", (s, n) => s * n)
+     
+        println( n )
+
+   => A method/function can return a function as a return value.
+
+	def compute(op: String) = {
+        op match {
+          case "+" => (x: Int, y: Int) => x + y
+          case "-" => (x: Int, y: Int) => x - y
+          case "*" => (x: Int, y: Int) => x * y
+          case "/" => (x: Int, y: Int) => x / y
+          case _ => (x: Int, y: Int) => x % y
+        }
+      }
+      
+      val f1 = compute("+")
+      
+      println( compute("+")(10, 20) )
+
+      Function Literal				Type
+      ----------------				-----
+	(a : Int, b: Int) => a + b	        (Int, Int) => Int
+	(n: Int) => n * 10			Int => Int
+	(s: String) => s * 10			String => String
+	(s: String, n: Int) => s * n		(String, Int) => String
+	(l: List[Int]) => sum(l)		List[Int] => Int
+	(t: (Int, Int)) => t._1 + t._2		(Int, Int) => Int
+	() => "Windows 10"			() => String	
+	(s: String) => println(s)		String => Unit
+
+	
+       //method returning a function
+	def compute(op: String) = {
+          (i: Int, j: Int) => {
+             op match {
+               case "+" => i + j
+               case "-" => i - j
+               case "*" => i * j
+               case _ => i % j
+             }
+          }
+        }      
+
+       // method taking function as a parameter
+       def calculate(a: Int, b: Int, f: (Int, Int) => Int) = {
+         f(a, b)
+       }
+      
+       val sum = compute("+")
+       val diff = compute("-")
+       val prod = compute("*")
+       val mod = compute("blah")
+      
+      
+       println ( calculate(10, 20, compute("+")) )
+       println ( calculate(10, 20, sum) )
+
+       println ( calculate(10, 20, (a: Int, b: Int) => a + b) )
+       println ( calculate(10, 20, (a, b) => a + b) )
+       println ( calculate(10, 20, _+_) )
+
+	
+   Higher Order Functions
+   ----------------------
+   1. map		P: U => V
+			Performs object to object transformation
+			input: N objects, output: N objects 
+
+		s.map(x => x.split(" ").length)
+
+   2. filter		P: U => Boolean
+			The output collection will have only those elemnts for which the function
+			returns true.
+			input: N objects, output: < N objects 
+
+		s.filter( a => a.split(" ").length > 8 )
+
+   3. 
+
+
+
+   Reading from a file
+   -------------------
+      import scala.io.Source
+
+      val lines = Source.fromFile("E:\\Spark\\wordcount.txt")
+
+
+   Collections
+   -----------
+   1. Array  
+
+	-> Mutable collection
+	-> Fixed length
+
+   2. ArrayBuffer
+
+	-> Mutable collection
+	-> Variable length
+
+   3. Seq  => immutable
+	      Ordered collection of same type
+	
+	  Indexed Sequences
+		-> Optimized for random access of elements
+		Vector, Range
+
+	  Linear Sequences
+		-> Optimized for iterating all the elements
+		List, Queue, Stream
+
+
+   4. Set    => unordered collection of unique elements
+
+
+   5. Map    => Collection of (Key, Value) pairs
+	
+	val m1 = Map( 1 -> 10, 2 -> 20, 3 -> 30 )
+
+
+   Tuple
+   -----
+     => Is an object that holds multiple values of different types.
+
+
+	val t1 = (10, 10.5, 10 > 20, 5)
+	t1: (Int, Double, Boolean, Int) = (10,10.5,false,5)
+
+
+	val t2 = (10, 20, List(1,2,3), Array(3,4,5))
+	t2: (Int, Int, List[Int], Array[Int]) = (10,20,List(1, 2, 3),Array(3, 4, 5))
+
+    => A tuple with only two elements is called a "Pair"
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+   
