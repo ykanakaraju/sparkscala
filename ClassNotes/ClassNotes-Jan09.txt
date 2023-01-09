@@ -1,0 +1,2215 @@
+
+  Agenda
+  -------
+
+  Scala - refresher
+     	Basics	
+	Functional programming concepts
+  Spark 
+	Basics & Architecture
+	Core API -> RDD (basics)
+	Spark SQL (DataFrames)
+	Spark Streaming
+  Kafka
+	Architecture
+	Topic Operations
+	Producer API
+	Consumer API
+  NiFi
+	Basics Concepts
+	3 or 4 different integrations.
+
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules
+	=> Class Notes
+	=> Git Hub: https://github.com/ykanakaraju/sparkscala
+
+
+  Using your lab
+  ---------------
+
+	-> Connect to the Windows server using the credentials got in the email
+	-> Check out the word doc for other credentials (on the desktop)
+	-> Click on the "Oracle VM Vitualbox" icon (desktop)
+	-> Select the Vm ans click on the 'Start' button
+	-> Enter your userid and password. 
+
+	Spark Shell
+        ----------
+	-> Open the Terminal window
+	-> Type "spark-shell"
+
+	Launching Scala IDE
+	-------------------
+	-> Open the "ScalaIDE" folder on the desktop
+	-> Open the "eclipse" folder
+        -> Click on the 'eclipse' application icon (blue diamond)
+	
+ 
+  Scala
+  -----
+    
+    Scala stands for SCAlable LAnguage
+	
+    Scala is a multi-paradigm programming language.
+  
+	-> Scala is a PURE OOP
+		-> Scala has no primitives
+		-> Scala has no operators
+
+	-> Scala is a Functional programming language
+
+    Scala immutables and mutables:
+
+	 	val i : Int = 10  => immutable
+		var i : Int = 10  => mutable
+
+    Scala Type inference:
+
+	  -> Scala can automatically infer the type based on the value assigned to it.
+
+    Scala is statically typed language
+	-> The type of every object is known at compile time.
+	-> Once declared, the type of an object can not be changed.
+
+    Blocks
+
+	-> Set of expressions enclosed in { .. } is a block
+  	-> Every block returns a value
+
+    Unit
+	Is a class that represents "no value"
+	Printed as "()"
+
+	
+   Getting started with Scala
+   ---------------------------
+	1. Using you Lab
+
+	2. Installing Scala IDE on your local environment
+	      URL: http://scala-ide.org/download/sdk.html
+
+	      => Ensure you are running JDK 1.8 or up (Java 8)
+	      => Download the zip file from the above URL
+              => Unzip/extract it, navigate to eclispe folder.
+      
+        3. Using Databricks community edition
+	
+		Sign-up: https://databricks.com/try-databricks
+	  	Login: https://community.cloud.databricks.com/login.html
+
+  String Interpolations 
+  ----------------------
+
+	s => Allows you to invoke variables using $ sybmol
+		ex: val str = f"i = $i\nj = $j\nk = $k"
+
+	f => s interpolator + can use formatting symbols
+		ex: val str = f"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+        raw => s interpolator + escapes the escape chars
+		val str = raw"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+
+  Control-Flow statements
+  -----------------------
+
+    if..else if..else
+    ------------------
+
+	-> if..else can return a value.
+
+	val z = if (x > y) x - y else if (x < y) y - x else 0
+
+    match..case
+    ------------
+
+    	val z = x match {
+          case 10 => { "ten" }
+          case 20 => { "twenty" }
+          case a if (x % 2 == 0) => { s"even number ($a)" }
+          case a if (x % 2 != 0) => { s"odd number ($a)" }
+          case _ => { "none of the above" }
+        }
+ 
+  
+
+  Scala Class Hierarchy
+  ---------------------
+	
+	Any   	=> AnyVal   => Int, Long, Double, Float, Bool, Unit, Char, Byte ...
+		=> AnyRef   => String, List, Seq, Map, .....
+
+  Range
+  -----  	
+	Range(1, 10)        => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 3)     => 1,4,7
+	Range(100, 10, -20) => 100, 80, 60, 40, 20
+	1 to 10             => 1,2,3,4,5,6,7,8,9,10   (Range.Inclusive)
+	1 until 10          => 1,2,3,4,5,6,7,8,9
+	0 to 10 by 2	    => 0,2,4,6,8,10
+	0 until	10 by 2     => 0,2,4,6,8
+	10 until 1          => Empty Range  (no elements)
+
+  Loops
+  -----
+
+    => while loop
+
+		while(i < x) {
+      		    println(i)
+      		    i += 1
+    		}
+
+    => do..while
+
+		do {
+      		   println(i)
+      		   i += 1
+    	        } while(i < x)
+
+
+    => foreach
+
+	   <Iterable>.foreach( function )
+
+		(1 to 10).foreach( x => println(s"x=$x") )    
+    		"SCALA LANGUAGE".foreach(println)
+
+    => for
+
+	for( <one or more generators> ) {
+               <some code>
+        }
+
+	   for( x <- 0 until 10 by 2) {
+         	println(s"x = $x")
+     	   }
+
+	   for( x <- 0 until 10 by 2; y <- "scala") {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) {
+         	println(s"x = $x, y = $y")
+     	   }
+
+	   for comprehension
+	   -----------------
+		 for producing a collection (Vector object) from a for loop:
+
+		 val v = for( x <- 0 until 10 by 2 if(x != 6); y <- 0 until 10 if( x > y )) yield( (x, y) )
+		 println( v )
+
+		 Result: (2,0), (2,1), (4,0), (4,1), (4,2), (4,3), (8,0), (8,1), (8,2), (8,3), (8,4), (8,5), (8,6), (8,7)
+
+    Scala Imports
+    -------------
+
+	import Source.io.File
+	import Source.io._
+	import java.io.{FileReader, FileNotFoundException, IOException}
+
+
+   Exception handling
+   -------------------
+	try {
+		some code that might through an exception
+         }
+         catch {
+	     case e: ArrayIndexOutofBoundsException => {
+	     }
+             case f: FileNotFoundException => {
+             }
+	     case _ => {
+             }
+         }
+         finally {
+	     // code that executes after try/catch blocks
+         }
+
+      Example
+      --------------
+
+      try {
+         println("Reading from a file ...")   
+         val f = new FileReader("file1456.txt")            
+      } 
+      catch {
+         case ex: FileNotFoundException => {
+            println("Missing file exception")
+            println( ex.getMessage() )
+         }         
+         case _: IOException => {
+            println("IO Exception")
+         }
+         case _: Exception => {
+            println("generic exception")
+         }
+      } 
+      finally {
+         println("Exiting finally...") 
+      }  
+
+
+
+   Methods
+   -------
+	-> Reusable code block that return some value
+	-> Method will have a name and optionally some parameters/arguments
+
+	-> NOTE: note that we are using an "=" symbol
+
+	def sum(a: Int, b: Int) : Int = {
+        	a + b
+     	}
+	
+	-> methods can take 0 or more arguments                
+	-> Methods can be called by positional parameters
+	-> Methods can be called by named parameters
+
+	val x = sum(10, 20)		// positional params
+	val x = sum(b=10, a=20)   	// named params
+
+
+	-> Method arguments can have default values	
+
+	def sum(a: Int, b: Int, c: Int = 0) = {       
+        	println( s"a = $a, b = $b, c = $c" )    
+        	a + b + c
+     	}
+
+        -> Methods can have variable length arguments
+	  
+		 def sum(a: Int, i: Int*) = {       
+       			var s = 0 
+       
+       			for (x <- i){
+         			println(s"x = $x")
+         			s += x
+       			}
+       
+       			a + s
+     		}
+    
+     		val x = sum(10, 20, 30, 40, 50)
+	
+		-> In this example, i represents [20, 30, 40, 50]
+
+	-> methods can call themselves within the code. (recursive methods)
+
+		def factorial(n: Int) : Int = {
+        		if ( n == 1 ) n
+        		else n * factorial(n - 1)
+      		}
+
+         -> methods can take multiple parameter lists
+
+		def sum(a: Int, b: Int)(c: Int)(d: Int) = (a + b)*c*d    
+    		val x = sum(10, 20)(5)(2)
+
+
+   Procedures
+   ----------
+	-> Are like methods but does not return any value.
+	-> A procedure always return "Unit" irrespective of the return type of the block
+	-> Procedure does not have the = symbol in the defintion
+
+	def box(name: String) {       
+        	val line = "-" * name.length() + "----"
+        	println( line + "\n| " + name.toUpperCase  + " |\n" + line)        
+     	}
+     
+     	box("scala is a programming language")
+
+  Functions
+  ---------
+       -> In Functional programming, a 'function' is like a literal.
+       -> A function has a value and type of its own.
+       -> Functions are anonymous by default
+       -> A function can be assigned to a variable (named functions)
+       -> A function can be passed as a parameter to a method/function
+       -> A block can return a function as final value
+       -> A method can return a function as return value
+
+	def m1(a: Int, b: Int, c: String, f: (String, Int) => String ) = {
+            f(c, b) + ":" + a
+        }
+  
+        val n = m1(10, 15, "*", (s, n) => s * n)
+     
+        println( n )
+
+   => A method/function can return a function as a return value.
+
+	def compute(op: String) = {
+        op match {
+          case "+" => (x: Int, y: Int) => x + y
+          case "-" => (x: Int, y: Int) => x - y
+          case "*" => (x: Int, y: Int) => x * y
+          case "/" => (x: Int, y: Int) => x / y
+          case _ => (x: Int, y: Int) => x % y
+        }
+      }
+      
+      val f1 = compute("+")
+      
+      println( compute("+")(10, 20) )
+
+        Function Literal			Type
+        ---------------------------		-------------------
+	(a : Int, b: Int) => a + b	        (Int, Int) => Int
+	(n: Int) => n * 10			Int => Int
+	(s: String) => s * 10			String => String
+	(s: String, n: Int) => s * n		(String, Int) => String
+	(l: List[Int]) => sum(l)		List[Int] => Int
+	(t: (Int, Int)) => t._1 + t._2		(Int, Int) => Int
+	() => "Windows 10"			() => String	
+	(s: String) => println(s)		String => Unit
+
+	
+       //method returning a function
+	def compute(op: String) = {
+          (i: Int, j: Int) => {
+             op match {
+               case "+" => i + j
+               case "-" => i - j
+               case "*" => i * j
+               case _ => i % j
+             }
+          }
+        }      
+
+       // method taking function as a parameter
+       def calculate(a: Int, b: Int, f: (Int, Int) => Int) = {
+         f(a, b)
+       }
+      
+       val sum = compute("+")
+       val diff = compute("-")
+       val prod = compute("*")
+       val mod = compute("blah")
+      
+      
+       println ( calculate(10, 20, compute("+")) )
+       println ( calculate(10, 20, sum) )
+
+       println ( calculate(10, 20, (a: Int, b: Int) => a + b) )
+       println ( calculate(10, 20, (a, b) => a + b) )
+       println ( calculate(10, 20, _+_) )
+
+	
+   Higher Order Functions
+   ----------------------
+   1. map		P: U => V
+			Performs object to object transformation
+			input: N objects, output: N objects 
+
+		s.map(x => x.split(" ").length)
+
+   2. filter		P: U => Boolean
+			The output collection will have only those elemnts for which the function
+			returns true.
+			input: N objects, output: < N objects 
+
+		s.filter( a => a.split(" ").length > 8 )
+
+   3. flatMap		P: U => GenTraversableOnce[V]
+			flattens the iterables produced by the function
+			input: N objects, output: > N objects 
+
+		val words = lines.flatMap(x => x.split(" "))
+
+   4. reduce (reduceLeft / reduceRight)
+			P: (U, U) => U			
+			The function is iterativly applied to reduce the entire collect to one final value
+			of the same type.
+
+   5. sortWith		P : Binary sorting function
+			Sorts the elements of the elements based on the comparision statement in the binary sorting
+                        function.
+
+			words.sortWith( (x, y) => x.length < y.length )
+			words.sortWith( (x, y) => x(x.length - 1) < y(y.length - 1))
+
+
+   6. groupBy		P: U => V
+			Returns a Map where the 'keys' are unique values of the function output and 'values'
+			are grouped objects that produced the key
+
+		words.groupBy( x => x ).toList.map(x => (x._1, x._2.length ) )
+
+   7. mapValues		P: U -> V
+			Operates in Map object and transforms only the value part of thr Map by applying the function.
+
+		val m1 = Map( 1 -> 10, 2 -> 20, 3 -> 30, 4 -> 40)
+
+		m1.mapValues(x => x + 1)
+		res93: scala.collection.immutable.Map[Int,Int] = Map(1 -> 11, 2 -> 21, 3 -> 31, 4 -> 41)
+
+		words.groupBy(x => x).mapValues(x => x.length).toList
+
+   8. foldLeft & foldRight	
+                 => reduces the entire collection to a type that is different that the type of objects
+
+			Two parameters as param-list
+			
+			1. zero-value : starting value of the type of output you want as output
+			2. Sequence Function : is a function that iterativly merges all the objects of the 
+			   collection with the zero-value. 
+
+			List[U].foldLeft( (V, U) => V )  => V					
+			l1.foldRight( (0,0) )( (v, z) => (z._1 + v, z._2 + 1) ) 
+
+
+   Use-Case: Writing a simple wordcount program
+   -------------------------------------------
+      val wordcounts = Source.fromFile("file1.txt")
+                        .getLines
+                        .toList
+                        .flatMap(x => x.split(" "))
+                        .groupBy(x => x)
+                        .mapValues(l => l.length)
+                        .toList
+                        .sortWith( (x, y) => x._2 > y._2 )
+
+   Reading from a file
+   -------------------
+      import scala.io.Source
+
+      val lines = Source.fromFile("E:\\Spark\\wordcount.txt")
+
+
+   Collections
+   -----------
+   1. Array  
+
+	-> Mutable collection
+	-> Fixed length
+
+   2. ArrayBuffer
+
+	-> Mutable collection
+	-> Variable length
+
+   3. Seq  => immutable
+	      Ordered collection of same type
+	
+	  Indexed Sequences
+		-> Optimized for random access of elements
+		Vector, Range
+
+	  Linear Sequences
+		-> Optimized for iterating all the elements
+		List, Queue, Stream
+
+
+   4. Set    => unordered collection of unique elements
+
+
+   5. Map    => Collection of (Key, Value) pairs
+	
+	val m1 = Map( 1 -> 10, 2 -> 20, 3 -> 30 )
+
+	val m1 = Map( 1 -> "Sun", 2 -> "Mon", 3 -> "Tue", 4 -> "Wed" )
+     
+        println( m1.get(1), m1.get(5) )
+     
+        val v = m1.getOrElse(2, "No Value")
+       
+        println( v )
+
+
+   Tuple
+   -----
+     => Is an object that holds multiple values of different types.
+
+
+	val t1 = (10, 10.5, 10 > 20, 5)
+	t1: (Int, Double, Boolean, Int) = (10,10.5,false,5)
+
+
+	val t2 = (10, 20, List(1,2,3), Array(3,4,5))
+	t2: (Int, Int, List[Int], Array[Int]) = (10,20,List(1, 2, 3),Array(3, 4, 5))
+
+    => A tuple with only two elements is called a "Pair"
+
+	
+   Option
+   ------
+      Represents an entity that may or may not have a value. 
+      Option class returns two objects
+      val status: Option[U]  => Some[U],  None 
+
+	
+    Object Oriented Programming
+    ---------------------------
+
+      	-> class
+		-> abstract class
+		-> case class
+
+	-> object   (singleton class)
+		-> companion object
+		-> case object
+
+	-> trait
+
+
+	class
+	=====
+
+	=> A single file can have any number of classes
+	=> There is no relation between the file name and class name.
+
+	-> classes, methods and variable are public by default.
+
+	-> Scala implicitly provides getter and setter methods for class variables.
+	    -> If the variable is "val", then scala provides only getter methods 
+	    -> If the variable is "var", then scala provides both getter and setter methods 
+
+
+        constructors
+        ------------
+
+	=> Two types of constructors:
+
+		1. Primary Constructor (PC)
+			-> Tied up with the class name itself (not user defined method)
+			-> All the executable code present in the class is the code that
+			   gets exeuted when you invoke PC.
+
+		2. Auxiliary Constructor (AC)
+			-> User defined method with the name "this"
+			-> Every AC must call the PC or a previously defined AC as the first
+			   statement.
+			-> We may define as many ACs as we need.
+
+
+
+	objects
+   	=======
+	-> Objects are singleton entities and only one instance of the object is created.
+           The constructor od the object is executed only once when the object is first 
+	   created.
+
+	-> Created for utility methods
+
+
+ =======================================
+    Spark
+ =======================================
+
+  => Spark is written in Scala
+
+  => Spark is a framework to perform big-data analytics
+  => Spark is an in-memory distributed computing framework.
+  => Spark is a unified framework
+	
+	Batch Analytics of Unstructured data  	=> Spark Core API (RDDs)
+	Batch Analytics of Structured data	=> Spark SQL (DataFrames)
+	Streaming Analytics (real-time)		=> Spark Streaming & Structured Streaming
+	Predictive Analytics (ML)		=> Spark MLlib
+	Graph parallel computations		=> Spark GraphX
+
+   => Spark can run on the following Cluster managers
+	 -> Spark Standalone
+	 -> YARN (Hadoop)
+	 -> Mesos
+         -> Kubernetes
+
+   => Spark is a polyglot. Spark supports multiple programming languages
+	 -> Scala
+	 -> Python (PySpark)
+         -> Java
+	 -> R
+
+
+  Spark Architecture & Building Blocks
+  ------------------------------------
+
+    	1. Cluster Manager
+		-> Jobs are submitted to CMs
+		-> Allocates containers for lauching driver and executors on the cluster. 
+		-> Spark supports multiple CMs
+			-> local, standalone, YARN, Mesos, Kubernetes		
+
+	2. Driver
+		-> Master process
+		-> Runs the SparkContext object
+		-> Manages the user code and sends the tasks to the executors as per the code. 
+
+		Deploy Modes:
+		1. Client : default, driver runs on the client. 
+		2. Cluster : driver runs on one of the nodes on the cluster.
+
+	3. SparkContext
+		-> Is an application context
+		-> Starting point of execution
+		-> Is the link between the driver and tasks running on the executors
+
+	4. Executors
+		-> receives the tasks from the Driver
+		-> all tasks runs the same execution code but on different partitions of the data
+		-> the status of tasks os reported to the driver.
+
+
+   RDD ( Resilient Distributed Dataset ) 
+   --------------------------------------
+
+	=> Is a collection of distributed in-memory partitions 
+		-> Partition is a collection of objects of any type. 
+          
+        => RDDs are immutable
+
+        => RDDs are lazily evaluated.
+		-> Transformations does not cause execution. 
+		-> Actions trigger the execution.
+  
+
+  Creating RDDs
+  -------------
+
+      Three ways:
+
+      1. Create an RDD from some external data source. 
+
+		val filePath = "E:\\Spark\\wordcount.txt"
+		val rddFile = sc.textFile( filePath, 4 )
+
+      2. Create an RDD from programmatic data (such as a collection)
+
+		val l1 = List(3,2,1,4,2,3,2,5,6,7,8,5,6,7,8,8,9,5,4,3,1,2,3,2,4,5)
+		val rdd1 = sc.parallelize(l1, 3)
+
+      3. By applying transformations on existings RDDs
+	
+		val rddWords = rddFile.flatMap( x => x.split(" ") )
+
+  RDD Operations
+  --------------
+     Two things:
+
+	1. Transformations
+	    -> Transformations (or Data loading commands) does cause execution of the RDD
+	    -> Transformations create the RDD's lineage DAG (logical plan) maintained by driver.	
+
+	2. Actions
+	    -> trigger execution of the RDDs
+	    -> Converts the logical plan to physical plan (stages & tasks)
+
+  RDD Lineage DAG
+  ---------------
+     rdd1.toDebugString => prints the lineage of rdd1.
+    
+     RDD Lineage is a logical plan that tracks the tasks to be performed to compute the RDD partitions
+     It has the heirarchy of dependent RDD all the way upto the very first RDD.     
+
+
+	val rddFile = sc.textFile( filePath, 4 )
+
+(4) E:\Spark\wordcount.txt MapPartitionsRDD[10] at textFile at <console>:26 []
+ |  E:\Spark\wordcount.txt HadoopRDD[9] at textFile at <console>:26 []
+
+	val rddWords = rddFile.flatMap( x => x.split(" ") )
+
+(4) MapPartitionsRDD[11] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[10] at textFile at <console>:26 []
+ |  E:\Spark\wordcount.txt HadoopRDD[9] at textFile at <console>:26 []
+
+
+	val rddPairs = rddWords.map( x => (x, 1) )
+
+(4) MapPartitionsRDD[12] at map at <console>:25 []
+ |  MapPartitionsRDD[11] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[10] at textFile at <console>:26 []
+ |  E:\Spark\wordcount.txt HadoopRDD[9] at textFile at <console>:26 []
+
+
+	val rddWordCount = rddPairs.reduceByKey( (x, y) => x + y )
+
+(4) ShuffledRDD[13] at reduceByKey at <console>:25 []
+ +-(4) MapPartitionsRDD[12] at map at <console>:25 []
+    |  MapPartitionsRDD[11] at flatMap at <console>:25 []
+    |  E:\Spark\wordcount.txt MapPartitionsRDD[10] at textFile at <console>:26 []
+    |  E:\Spark\wordcount.txt HadoopRDD[9] at textFile at <console>:26 []
+
+
+
+  Types of Transformations
+  -------------------------
+
+	Two types:
+
+	1. Narrow Transformations
+	    -> Does not cause shuffling of the data from one partition to other partitions
+	    -> Partition to partition transformations
+	    -> The output RDD will have the same number of partitions as input RDD
+
+	2. Wide Transformation
+	    -> Causes shuffling of the data
+	    -> One output partition may need data from multiple input partitions
+	    -> The output RDD may have different number of partitions than input RDD 
+
+   Executor memory structure
+   --------------------------
+
+	Reference URL: https://spark.apache.org/docs/latest/configuration.html
+
+	Let us assume, we request executors with 10 GB RAM.
+	
+	-> Cluster Manager allocates exectors with 10.3 GB RAM
+
+	1. Reserved Memory  : 300 MB
+		-> Spark's internal usage. 
+
+	2. Spark Memory (spark.memory.fraction: 0.6) => 6 GB
+		-> Used for RDD execution and storage
+
+		2.1 Execution Memory
+			-> Used for execution of RDD tasks and creating RDD partitions. 
+
+		2.2 Storage Memory (spark.memory.storageFraction = 0.5)  => 3 GB
+			-> Used for RDD persistence and storing broadcast variables.
+
+            -> Storage memory can not evict execution memory even if execution memory is
+               using more than its 3 GB limit. It has to wait until more memory becomes 
+	       available.
+
+	    -> Execution memory can evict some partitions from storage, if it requires more
+	       memory. But, it can evict only excess portion that is used by storage beyond its
+ 	       3 GB limit. 
+
+	3. User Memory (1 - spark.memory.fraction = 0.4) => 4 GB
+		-> Used for user code (Python/Scala/Java etc)
+
+  RDD Persistence
+  ---------------
+      	val rdd1 = sc.textFile(<dataset>, 4)
+	val rdd2 = rdd1.t2(...)
+	val rdd3 = rdd1.t3(...)
+	val rdd4 = rdd3.t4(...)
+	val rdd5 = rdd3.t5(...)
+	val rdd6 = rdd5.t6(...)
+	rdd6.persist( StorageLevel.MEMORY_ONLY )  -> instruction to spark to save the partitions
+	val rdd7 = rdd6.t7(...)
+
+	rdd6.collect()
+
+	DAG: rdd6 => rdd5.t6 => rdd3.t5 => rdd1.t3 => sc.textFile
+	(textFile,  t3,  t5,  t6) ==> collect
+
+        rdd7.collect()
+
+	DAG: rdd7 => rdd6.t7
+	(t7) ==> collect
+
+	rdd6.unpersist()
+
+	
+	Storage Levels
+        --------------
+
+	Types of persistence:	
+	   -> Serialized persistence
+	   -> Deserialized persistence
+
+	1. MEMORY_ONLY		-> default, Memory Deserialized 1x Replicated
+	
+	2. MEMORY_AND_DISK	-> Disk Memory Deserialized 1x Replicated
+
+	3. DISK_ONLY		-> Disk Serialized 1x Replicated
+
+   	4. MEMORY_ONLY_SER	-> Memory Serialized 1x Replicated
+
+	5. MEMORY_AND_DISK_SER	-> Disk Memory Serialized 1x Replicated	
+
+	6. MEMORY_ONLY_2	-> Memory Deserialized 2x Replicated
+
+	7. MEMORY_AND_DISK_2	-> Disk Memory Deserialized 2x Replicated
+
+
+	Commands
+	---------
+	rdd1.cache()
+	rdd1.persist()
+	rdd1.persist(StorageLevel.DISK_ONLY)
+
+	rdd1.unpersist()
+
+	
+  RDD Transformations
+  -------------------
+
+  1. map			P: U => V
+				Object to object transformation
+				input: N objects, output: N objects
+
+		val rdd2 = rddFile.map(x => x.split(" "))
+
+  2. filter			P: U => Boolean
+				Only those objects for which the function returns true will be in the output.
+				input: N objects, output: <= N objects
+
+		rdd2.filter(x => (x._1 + x._2) > 6).collect
+
+  3. glom			P: None
+				Return one Array object per partition
+
+		rdd1			rdd2 = rdd1.glom()
+	
+		P0: 3,1,2,4,2,5 -> glom -> P0: Array(3,1,2,4,2,5)
+		P1: 4,4,2,5,7,9 -> glom -> P1: Array(4,4,2,5,7,9)
+		P2: 6,3,4,6,9,0 -> glom -> P2: Array(6,3,4,6,9,0)
+
+		rdd1.count = 18 Int	   rdd2.count = 3 Array[Int]
+
+
+   4. flatMap			P: U => TraversableOnce[V]
+				Flattens the iterables produced by the function.
+				input: N objects, output: >= N objects
+
+		val rddWords = rddFile.flatMap(x => x.split(" "))
+
+   5. mapPartitions		P: Iterator[U] => Iterator[V]
+				Transforms an entire partition to the corresponding output partitions
+
+		rdd1		rdd2 = rdd1.mapPartitions( p => List(p.sum).iterator )
+	
+		P0: 3,1,2,4,2,5 -> mapPartitions -> P0: 18
+		P1: 4,4,2,5,7,9 -> mapPartitions -> P1: 37
+		P2: 6,3,4,6,9,0 -> mapPartitions -> P2: 28
+
+		rdd1.mapPartitions( p => List(p.sum).iterator ).collect
+
+   6. mapPartitionsWithIndex	P: (Int, Iterator[U]) => Iterator[V]
+   				Transforms an entire partition to the corresponding output partitions
+				We get the partition-index also as an additional function parameter.
+
+		rdd1.mapPartitionsWithIndex( (i,p) => List((i, p.sum)).iterator ).collect
+		rdd1.mapPartitionsWithIndex( (i,p) => p.map( x => (i,x) ) ).filter(x => x._1 == 1).map(x => x._2).collect
+
+   7. distinct			P: None, Optional: numPartitions
+				Returns distinct objects of the RDD
+
+		rddWords.distinct.glom.collect
+		rddWords.distinct(1).glom.collect
+
+   8. sortBy			P: U => V, Optional: ascending (true/false), numPartitions
+				Sorts the elements based on the function output.
+
+		rdd1.sortBy(x => x%3).glom.collect
+		rdd1.sortBy(x => x%3, false).glom.collect
+		rdd1.sortBy(x => x%3, false, 2).glom.collect
+
+
+  Types of RDDs
+  -------------
+	Generic RDD 	: RDD[U]
+	Pair RDD 	: RDD[(K, V)]
+
+
+  9. mapValues			P: U -> V
+				Operates only on Pair RDDs
+				Transforms only the value part of the RDD by applying the function.
+  
+			rddPairs.mapValues(x => x * 10).collect
+
+
+  10. groupBy			P: U => V, Optional: numPartitions
+				Groups the elements of the RDD based on the function output
+				Returns a Pair RDD, where:
+				   Key: Each unique function output
+				   Value: is CompactBuffer with grouped elements. 
+
+			rdd1.groupBy(x => x%2).collect
+			rddWords.groupBy(x => x).mapValues(x => x.size)
+			rddWords.groupBy(x => x, 2).mapValues(x => x.size)
+
+  11. randomSplit		P: Array of weights, Optional: seed
+				Returns an Array of RDDs split randomly in the specified weights
+
+			val rddArr = rdd1.randomSplit( Array(1, 1), 454 )
+			rddArr(0).collect
+			rddArr(1).collect
+
+  12. repartition		P: numPartitions	
+				Is used to increase or decrease the number of partitions of the output RDD
+				Performs global shuffle
+
+  13. coalesce			P: numPartitions
+				Is used to only decrease the number of partitions of the output RDD
+				Performs partition-merging   
+
+       Recommendations
+       ---------------
+       1. Size of the RDD partition: 100MB to 1000 MB, 128 MB on Hadoop
+       2. Number of partitions: Should be a multiple of number of cores allocated.
+       3. Number of partitions: If the partition count is closer to but less than 2000, bump it up to 2000
+       4. The number of cores per executor : 5 cores
+
+
+  14. partitionBy		P: partitioner
+				Applied only to pair RDDs
+				Partitioning happens based on the 'key'
+				Is used to control which data goes to which partition.
+
+		Built-in partitioners:
+
+		1. Range Partitioner
+
+			val rangePartitioner = new RangePartitioner(5, rdd)    
+    			val partitionedRdd = rdd.partitionBy(rangePartitioner)
+
+		2. Hash Partitioner
+
+			val hashPartitioner = new HashPartitioner(3)    
+    			val partitionedRdd = rdd.partitionBy(hashPartitioner)
+
+		3. Custom partitioner
+			=> User can define custom partitioning logic.
+
+		Refer to the examples shared in the github.
+
+
+   15. union, intersection, subtract & cartesian	
+
+	
+   ..ByKey transformations 
+   ------------------------
+	-> Wide transformations
+	-> Applied only to Pair RDDs
+
+
+   16. sortByKey		P: None,  Optional: ascending (true/false), numPartitions
+				Sorts the objects of the RDD based on key.
+	
+			rddWords.sortByKey(false).collect
+
+   17. groupByKey		P: None, Optional: numPartitions
+				Groups the objects of the RDD by key.
+				NOTE: Avoid groupByKey as much as possible
+
+		rddPairs.groupByKey().mapValues(x => x.map(a => a*10) ).collect
+
+   18. reduceByKey		P: (U, U) => U
+				Reduces all the values of each unique key by iterativly applying the reduce function
+
+		rddPairs.reduceByKey( (x, y) =>  x + y ).collect
+
+   19. aggregateByKey	       => Used to reduce all the values of each unique key to a type which is different
+				  than the type of the value part of  K, v) pairs
+
+			 RDD[U] => aggregate => V
+
+			 Three parameters (mandatory):
+
+			 1. zero-value : starting value of the type of the output you want to produce
+			 2. Sequence Function: merges all the objects of the RDD in each partition with the zero
+				   -> produces one output (of the type of ZV) per partition
+			 3. Combine Function: reduces the outputs each partition to one final value.
+
+			 4. (optional) : numPartitions
+
+	val students_list = List(
+  		("Aditya", "Maths", 83), ("Aditya", "Physics", 74), ("Aditya", "Chemistry", 91), ("Aditya", "English", 82), 
+  		("Amrita", "Maths", 69), ("Amrita", "Physics", 62), ("Amrita", "Chemistry", 97), ("Amrita", "English", 80), 
+  		("Pranav", "Maths", 78), ("Pranav", "Physics", 73), ("Pranav", "Chemistry", 68), ("Pranav", "English", 87), 
+  		("Keerti", "Maths", 87), ("Keerti", "Physics", 93), ("Keerti", "Chemistry", 91), ("Keerti", "English", 74), 
+  		("Harsha", "Maths", 56), ("Harsha", "Physics", 65), ("Harsha", "Chemistry", 71), ("Harsha", "English", 68), 
+  		("Anitha", "Maths", 86), ("Anitha", "Physics", 62), ("Anitha", "Chemistry", 75), ("Anitha", "English", 83), 
+  		("Komala", "Maths", 63), ("Komala", "Physics", 69), ("Komala", "Chemistry", 64), ("Komala", "English", 60))
+  
+      def seqFn(z: (Int, Int), v: Int) =  (z._1 + v, z._2 + 1) 
+      def combFn(a: (Int, Int), b: (Int, Int)) = (a._1 + b._1, a._2 + b._2)           
+           
+       val rdd1 = sc.parallelize(students_list, 3)
+                    .map( t => (t._1, t._3) )
+                    .aggregateByKey((0,0))(seqFn, combFn)
+                    .mapValues( x => x._1.toDouble / x._2 ) 
+                    
+                    
+       rdd1.collect().foreach( println )
+
+
+  Actions
+  ========
+
+  1. collect
+
+  2. count
+
+  3. saveAsTextFile
+
+  4. reduce			P: (U, U) => U
+				Reduces the entire RDD to one value of the same type.
+				Iterativly reduces all the partitions of the RDD in the first stage
+				and across partitions in the second stage
+
+		rdd1
+
+		P0: 3, 2, 1, 4, 2, 3, 2, 5    => reduce => -16 => 55
+		P1: 6, 7, 8, 5, 6, 7, 8, 8, 9 => reduce => -52
+		P2: 5, 4, 3, 1, 2, 3, 2, 4, 5 => reduce => -19
+
+			rdd.reduce( (x,y) => x - y ) 
+
+
+  5. aggregate		Used to reduce an entire RDD to a type which is different then type of the RDD
+
+			 RDD[U] => aggregate => V
+
+			 Three parameter:
+
+			 1. zero-value : starting value of the type of the output you want to produce
+			 2. Sequence Function: merges all the objects of the RDD in each partition with the zero
+				   -> produces one output (of the type of ZV) per partition
+			 3. Combine Function: reduces the outputs each partition to one final value.	
+
+
+		rdd1.aggregate( (0,0) )( (z,v) => (z._1 + v, z._2 + 1), (a,b) => (a._1 + b._1, a._2 + b._2) )		
+
+
+  6. take(n)
+
+  7. takeOrdered(n)
+
+		rdd1.takeOrdered(10)
+		rdd1.takeOrdered(10)(Ordering[Int].reverse)
+
+  8. takeSample(withReplacement, n)
+
+		rdd1.takeSample(true, 15)
+		rdd1.takeSample(true, 15, 465)  // 465 is a seed 
+
+		rdd1.takeSample(false, 15)
+		rdd1.takeSample(false, 15, 465)
+
+   9. countByValue
+
+   10. countByKey
+
+   11. foreach		p: U => Unit
+
+		rdd2.foreach( x => println(s"key: ${x._1}, value: ${x._2}") )
+
+   12. saveAsObjectFile
+
+   13. saveAsSequenceFile
+
+
+  Closure
+  --------
+    Closure constitute all the variables and methods that must be visible inside an executor for the tasks
+    to perform the computations on the partitions
+
+    Driver serialzes the closure and a separate copy is sent to every single executor.
+
+	
+	var c = 0     // number of primes
+
+	def isPrime(n: Int): Boolean = {
+	    var output = false
+	    if (n == 1) output = true
+	    else {
+	    	for( i < 2 to n-1 ) {
+		    if (n % i == 0) output = true
+            	}
+            }
+            output	    
+        }
+
+        def f1(n: Int) = {
+            if (isPrime(n)) c += 1
+	    n * 10
+	}
+
+        val rdd1 = sc.parallelize(1 to 4000, 4 )
+	val rdd2 = rdd1.map( f1 )
+
+	rdd2.collect
+	
+	prinln(s"total primes = $c")   // total primes = 0
+        
+
+ 
+  Shared Variables
+  ----------------
+
+    1. Accumulator
+
+	-> Is shared variable.
+	-> Is not part of closure.
+	-> One copy is maintained by the driver, and all tasks can add to it.
+	-> Used for implementing global counter.
+
+
+	var c = sc.longAccumulator()   
+
+	def isPrime(n: Int): Boolean = {
+	    var output = false
+	    if (n == 1) output = true
+	    else {
+	    	for( i < 2 to n-1 ) {
+		    if (n % i == 0) output = true
+            	}
+            }
+            output	    
+        }
+
+        def f1(n: Int) = {
+            if (isPrime(n)) c.add(1)
+	    n * 10
+	}
+
+        val rdd1 = sc.parallelize(1 to 4000, 4 )
+	val rdd2 = rdd1.map( f1 )
+
+	rdd2.collect
+	
+	prinln(s"total primes = $c")    // 145
+
+
+  2. Broadcast
+
+	val m1 = Map( 1->a, 2->b, 3->c, 4->d, .....)    // 100MB
+	val bcMap1 = sc.broadcast(m1)
+
+	def f1(n: Int) = {
+	    bcMap1.value.getOrElse(n, '')
+	}
+
+	val rdd1 = sc.parallelize( List(1,2,3,4,5,6, ....), 2 )
+
+	val rdd2 = rdd1.map( f1 )     
+
+	rdd2.collect()
+
+
+   Spark-submit
+   ============
+
+     Is a single command to submit any spark application (scala, java, python, R) to any cluster
+     manager (local, spark standalone, yarn, mesos, kubernetes)
+
+	spark-submit [options] <app jar | python file> [app arguments]
+
+	spark-submit --master yarn --class tekcrux.WordcountEx /home/cloudera/workspace_projects/SparkWordcount/target/spark_wordcount-0.0.1-SNAPSHOT.jar wordcount_input.txt wcoutyarn
+
+         
+  =====================================
+     Spark SQL (org.apache.spark.sql)
+  ======================================
+ 
+     => Is a high-levl API built on top of Spark core    
+     => Structured data processing API
+	
+            Structured file formats: parquet (default), ORC, JSON, CSV (delimited text file)
+			       Hive: Hive warehouse table
+			       JDBC: RDBMS and NoSQL databases.    
+
+     => SparkSession
+	    
+            -> Represents a user-session with its own configurations running within an SparkContext.
+	    -> Introduced in Spark 2.0	
+
+		 val spark = SparkSession
+                  	   .builder
+                  	   .master("local[2]")              
+                  	   .appName("DataSourceBasic")
+                           .getOrCreate()
+
+                 spark.conf.set("spark.sql.shuffle.partititons", 10)
+
+       => Data Abstractions:
+      
+	    -> Dataset[U] 
+		-> A collection of distributed in-memory partitions
+                -> immutable
+                -> laziliy evaluated
+		-> Dataset has a schema attached to it
+			
+		  Dataset[U] => RDD[U] + schema
+ 
+	    -> DataFrame ( alias of Dataset[Row] ) 
+		 -> Dataset of 'Row' objects
+		 -> A 'Row' (org.apache.spark.sql.Row) is a collection of 'Column's
+		 -> Each Columns is processsed using sparkSQL internal type representations.
+
+		Two components:
+
+		 1. data : Row objects
+		 2. schema : metadata - StructType object
+
+			StructType(
+				StructField(age,LongType,true), 
+				StructField(gender,StringType,true), 
+				StructField(id,LongType,true), 
+				StructField(name,StringType,true)
+                        )
+		
+
+	
+   Steps in working with Spark SQL
+   -------------------------------
+
+   1. Read / Load some data into a DataFrame
+
+	        val filePath = "people.json"    
+     		val df1 = spark.read.format("json").load(filePath)   
+		val df1 = spark.read.json(filePath)     
+     		df1.show()     
+     		df1.printSchema()
+
+   2. Apply transformtions on the DF using Transformation methods or using SQL
+
+		Using DF Transformations
+	        ------------------------
+		val df2 = df1.select("id", "name", "age", "gender")
+                 		.where("age is not null")
+                 		.orderBy("gender", "age")
+                 		.groupBy("age").count()
+                 		.where("count < 2")
+                 		.limit(3)
+
+		Using SQL
+		---------
+
+		df1.createOrReplaceTempView("people")     
+     		spark.catalog.listTables().show()
+
+		val qry = """select age, count(*) as count
+	                from people
+	                where age is not null
+	                group by age
+	                order by count
+	                limit 3"""
+     
+     		val df2 = spark.sql(qry)
+     
+     		df2.show()
+
+		// drop a Temp table
+		spark2.catalog.dropTempView("people")
+
+
+   3. Write/save the DF into some structured destinations.   
+
+     		df2.write.format("json").save("output/json")	
+		df2.write.json("output/json")
+
+		df2.write.mode(SaveMode.Overwrite).json("output/json")
+
+
+  SaveModes
+  ---------
+	ErrorIfExists (default)
+	Ignore
+	Append
+	Overwrite
+
+	 df2.write.mode(SaveMode.Overwrite).json("output/json")
+
+   LocalTempView & GlobalTempView
+  ------------------------------
+	LocalTempView 
+		-> created at Session scope
+		-> created using df1.createOrReplaceTempView("users")
+		-> accessible only from its own SparkSession.
+
+	GlobalTempView
+		-> created at Application scope
+		-> Accessible from all SparkSessions
+		-> created using df1.createGlobalTempView("gusers")
+		-> Attached to a temp database called "global_temp"
+
+
+
+  DataFrame Transformations
+  -------------------------
+
+  1. select
+
+	val df2 = df1.select("DEST_COUNTRY_NAME", "ORIGIN_COUNTRY_NAME", "count")
+
+
+	val df2 = df1.select(col("DEST_COUNTRY_NAME") as "destination",
+                          col("ORIGIN_COUNTRY_NAME") as "origin",
+                          expr("count") cast "int",
+                          expr("count > 200 as highFrequecy"),
+                          expr("count + 10 as newCount"),
+                          expr("DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME as domestic")
+                          )
+
+  2. where / filter
+
+	val df3 = df2.where("highFrequecy = true and count > 300")
+        val df3 = df2.filter("highFrequecy = true and count > 300")
+        df3.show()
+
+	val df3 = df2.where( col("count") > 1000 )
+        df3.show()
+
+
+  3. orderBy / sort
+
+	val df3 = df2.orderBy("count", "destination")
+	val df3 = df2.sort("count", "destination")
+        df3.show()
+
+	val df3 = df2.orderBy(col("count").desc, col("destination").asc)
+        df3.show()
+
+	val df3 = df2.orderBy(desc("count"), asc("destination"))
+        df3.show()
+
+
+  4. groupBy   -> returns 'RelationalGroupedDataset"
+	       -> Apply some aggregation method to return a DataFrame
+
+	 val df3 = df2.groupBy("domestic", "highFrequecy").count()  
+	 val df3 = df2.groupBy("domestic", "highFrequecy").sum("count") 
+	 val df3 = df2.groupBy("domestic", "highFrequecy").avg("count")  
+	 val df3 = df2.groupBy("domestic", "highFrequecy").max("count")  
+
+	 val df3 = df2.groupBy("domestic", "highFrequecy")
+                  .agg( sum("count") as "sum",
+                        count("count") as "count",
+                        max("count") as "max",
+                        avg("count") as "average")
+
+  5. limit
+
+	 df2 = df1.limit(100)
+
+  6. selectExpr
+
+		val df2 = df1.select(expr("DEST_COUNTRY_NAME as destination"),
+                          expr("ORIGIN_COUNTRY_NAME as origin"),
+                          expr("count"),
+                          expr("count > 200 as highFrequecy"),
+                          expr("count + 10 as newCount"),
+                          expr("DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME as domestic")
+                          )
+
+		is same as:
+
+		val df2 = df1.selectExpr("DEST_COUNTRY_NAME as destination",
+                          "ORIGIN_COUNTRY_NAME as origin",
+                          "count",
+                          "count > 200 as highFrequecy",
+                          "count + 10 as newCount",
+                          "DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME as domestic"
+                          )
+
+   7. withColumn
+
+		 val df3 = df1.withColumn("newCount", col("count") + 10 )
+                  	.withColumn("highFrequecy", col("count") > 200 )
+                  	.withColumn("domestic", expr("DEST_COUNTRY_NAME = ORIGIN_COUNTRY_NAME") )
+                  	.withColumn("country", lit("India"))
+
+
+		val df3 = df2.withColumn("ageGroup", when( col("age") < 13, "child")
+     	                                     .when( col("age") < 20, "teenager")
+     	                                     .when( col("age") < 60, "adult")
+     	                                     .otherwise("senior"))
+
+		val case_when = """case when age <= 12 then 'child'
+	                         when age <= 19 then 'teenager' 
+	                         when age <= 60 then 'adult'
+	                         else 'senior' 
+	                     end""" 
+     	
+     		val df3 = df2.withColumn("ageGroup", expr(case_when))     	                                     
+     		df3.show()
+
+
+   8. withColumnRenamed
+
+		val df4 = df3.withColumnRenamed("DEST_COUNTRY_NAME", "destination")
+                  	     .withColumnRenamed("ORIGIN_COUNTRY_NAME", "origin")
+
+   9. udf (user defined function)
+
+	
+           val get_age_group = (age: Int) => {
+                if (age <= 12) "child"
+                else if (age <= 19) "teenager"
+                else if (age < 60) "adult"
+                else "senior"            
+     	   }
+     
+     	   val get_age_group_udf = udf(get_age_group)
+     
+     	   val df2 = usersDf.withColumn("ageGroup", get_age_group_udf( col("age") ) )
+
+           ------------------------------
+
+	    spark.udf.register("get_age_group_udf", get_age_group )     
+            spark.catalog.listFunctions().where("name like 'g%'").show()     
+     
+            val qry = "select id, name, age, get_age_group_udf(age) as ageGroup from users"
+     
+            val df2 = spark.sql(qry)
+     
+            df2.show()
+
+  10. drop
+
+	    val df3 = df2.drop("newCount", "highFrequecy")     
+     	    df3.show(5)
+
+
+  11. dropDuplicates		
+ 
+		val users3 = Seq((1, "Raju", 5),
+                     (1, "Raju", 5),
+                     (3, "Raju", 5),
+                     (4, "Raghu", 35),
+                     (4, "Raghu", 35),
+                     (6, "Raghu", 35),
+                     (7, "Ravi", 70))
+
+    		val users3Df = users3.toDF("id", "name", "age")    
+    		users3Df.show()
+          
+    		val df3 = users3Df.dropDuplicates()    
+    		df3.show()
+
+		val df3 = users3Df.dropDuplicates("name", "age")    
+    		df3.show()
+
+   12. na functions   (works with rows that have null values in any of the columns)
+     
+
+		val users4Df = spark.read.json("E:\\PySpark\\data\\users.json")
+     		users4Df.show()
+     
+		users4Df.na.drop().show()
+     		users4Df.na.drop(Array("phone", "age")).show()
+
+		users4Df.na.fill("NONE").na.fill(0).show()
+
+   13. distinct
+
+		println( df1.select("ORIGIN_COUNTRY_NAME").distinct().count() )
+       		println( df1.dropDuplicates("ORIGIN_COUNTRY_NAME").count() )
+
+		
+   14. randomSplit
+
+	val dfArr = df1.randomSplit(Array(0.5, 0.5), 345)
+
+
+   15. sample
+
+	 val df2 = df1.sample(true, 1.6)
+	 val df2 = df1.sample(true, 1.6, 465)
+
+	 val df2 = df1.sample(false, 0.6, 465)
+
+
+   16. repartition
+
+	  	val df2 = df1.repartition(3)     
+     		println("df2 partitions: " + df2.rdd.getNumPartitions )
+     
+     		val df3 = df2.repartition(2)     
+     		println("df3 partitions: " + df3.rdd.getNumPartitions )
+    
+     		val df4 = df1.repartition(4, col("DEST_COUNTRY_NAME"))
+     		println("df4 partitions: " + df4.rdd.getNumPartitions )
+     
+     		val df5 = df1.repartition( col("DEST_COUNTRY_NAME") )
+     		println("df5 partitions: " + df5.rdd.getNumPartitions )
+
+		shuffle partitions
+		------------------
+		spark.conf.set("spark.sql.shuffle.partitions", 5)
+     
+     		val p = spark.conf.get("spark.sql.shuffle.partitions")     
+     		println(s"shuffle partitions: $p")
+
+   17. coalesce
+
+  	      val df2 = df1.coalesce(1)
+
+   18. join
+	
+	    Supported Joins:  inner (default), left, right, full, left_semi, left_anti
+
+
+	    left_semi : 
+
+		Is an inner join but only the columns of left table will be there in the output.
+                Equivalent of the following sub-query:
+			
+			select * from emp where deptid in (select id from dept)
+
+	    left_anti :
+		 Equivalent of the following sub-query:
+			
+			select * from emp where deptid not in (select id from dept)
+
+
+	   val joinCol = employee.col("deptid") === department.col("id")     
+           val joinedDf = employee.join(department, joinCol, "left_anti")     
+           joinedDf.show()	 
+
+
+  Working with different file formats
+  -----------------------------------
+
+  	1. JSON
+
+		Read
+		----
+		val df1 = spark.read.format("json").load("people.json")
+		val df1 = spark.read.json(inputFile)
+
+		Write
+		-----
+		df2.write.format("json").save(outputDir)
+		df2.write.json(outputDir)
+		df2.write.mode(SaveMode.Overwrite).format("json").save(outputDir)
+
+	2. CSV (delimited text file format)
+
+		Read
+		----
+		val df1 = spark.read.format("csv").option("header", true).option("inferSchema", true).load(inputFile)  
+
+		val df1 = spark
+              		.read
+              		.option("header", true)
+              		.option("inferSchema", true)
+              		.csv(inputPath, inputPath2)
+
+
+		Write
+		-----
+		df2.write.csv.save(outputDir)
+		df2.write.mode(SaveMode.Overwrite).csv(outputDir)
+		df2.write.mode(SaveMode.Overwrite).option("header", true).format("csv").save(outputDir)
+		df2.write.option("header", true).option("sep", "\t").format("csv").save(outputDir)
+     
+
+	3. Parquet (default)
+
+		Read
+		----
+		val df1 = spark.read.format("parquet").load(inputFile) 
+		val df1 = spark.read.parquet(inputFile)  
+
+		Write
+		-----
+		df2.write.save(outputDir)   // default format is parquet   
+		df2.write.format("parquet").save(outputDir)
+		df2.write.parquet(outputDir)
+
+
+	4. ORC
+
+		Read
+		----
+		val df1 = spark.read.format("orc").load(inputFile) 
+		val df1 = spark.read.orc(inputFile)  
+
+		Write
+		-----
+		df2.write.format("orc").save(outputDir)
+		df2.write.orc(outputDir)
+
+
+
+   Creating an RDD from a DF
+   -------------------------
+
+	val rdd1 = df1.rdd
+
+
+    Creating a DataFrame from programmatic data
+   --------------------------------------------
+     	import spark.implicits._
+          
+     	val users = Seq(
+            (1, "Raju", 25, 101),
+            (2, "Ramesh", 26, 101),
+            (3, "Amrita", 30, 102),
+            (4, "Madhu", 32, 102),
+            (5, "Aditya", 28, 102),
+            (6, "Aditya", 28, 100))
+            
+     	// using spark.implicits._
+     	val df1 = users.toDF("id", "name", "age", "deptid")
+
+     	// without using spark.implicits._
+     	val df1 = spark.createDataFrame(users).toDF("id", "name", "age", "deptid") 
+     
+     	df1.show()
+
+
+    Creating a DataFrame from RDD
+    -----------------------------
+
+	import spark.implicits._
+
+	val rdd1 = spark.sparkContext.parallelize(users)
+            
+     	val df1 = rdd1.toDF("id", "name", "age", "dept") 
+     
+     	df1.show()
+
+
+    Creating a Dataset from DataFrame
+    ----------------------------------
+	case class User(id: Int, name:String, age:Int, dept: Int)
+
+ 	val users = Seq(
+            (1, "Raju", 25, 101),
+            (2, "Ramesh", 26, 101),
+            (3, "Amrita", 30, 102),
+            (4, "Madhu", 32, 102),
+            (5, "Aditya", 28, 102),
+            (6, "Aditya", 28, 100))     	
+            
+        val df1 = users.toDF("id", "name", "age", "dept") 
+     
+        val ds1 = df1.as[User]
+
+
+    Applying programmatic schema on a DataFrame
+   -------------------------------------------
+
+     val inputPath = "data/flight-data/json/2015-summary.json"
+     
+     val mySchema = StructType(
+                    Array(StructField("ORIGIN_COUNTRY_NAME", StringType, true),
+                        StructField("DEST_COUNTRY_NAME", StringType, true),
+                        StructField("count", IntegerType, true)))
+     
+     val df1 = spark.read.schema(mySchema).json(inputPath)
+
+  
+   Use-Case
+   --------
+    From movies.csv and ratinngs.csv datasets, fetch the top 10 movies with highest average user rating.
+    -> Consider nly those movies with atleast 30 rating.
+    -> Data: movieId, title, averageUserRating, totalRatings
+    -> Arrange the data in the DESC order of averageUserRating
+    -> Save the output as single pipe-separated CSV file with header.
+    
+    => Try to solve yourself.
+
+
+   JDBC Format - Integrating with MySQL
+   ------------------------------------
+
+import org.apache.spark.sql.SparkSession
+import java.util.Properties
+import com.mysql.jdbc.Driver
+import org.apache.spark.sql.SaveMode
+
+object DataSourceJDBCMySQL {
+  def main(args: Array[String]) {
+    //System.setProperty("hadoop.home.dir", "C:\\hadoop\\");
+    
+    val spark = SparkSession
+      .builder.master("local[2]")
+      .appName("DataSourceJDBCMySQL")
+      .getOrCreate()
+      
+    import spark.implicits._
+    
+    
+    // Snippet 1: Reading from MySQL using JDBC
+    val jdbcDF = spark.read
+                    .format("jdbc")
+                    .option("url", "jdbc:mysql://localhost:3306/sparkdb")
+                    .option("driver", "com.mysql.jdbc.Driver")
+                    .option("dbtable", "emp")
+                    .option("user", "root")
+                    .option("password", "cloudera")
+                    .load()
+                    
+     jdbcDF.show()
+      
+     jdbcDF.createOrReplaceTempView("empTempView")
+     spark.sql("SELECT * FROM empTempView").show()
+     
+     
+     // Snippet 2:  Writing to MySQL using JDBC
+     spark.sql("SELECT * FROM empTempView")
+        .write
+        .format("jdbc")
+        .option("url", "jdbc:mysql://localhost:3306/sparkdb")
+        .option("driver", "com.mysql.jdbc.Driver")
+        .option("dbtable", "emp2")
+        .option("user", "root")
+        .option("password", "cloudera")
+        .mode(SaveMode.Overwrite)
+        .save()        
+    
+     // Snippet 3: Writing to MySQL using JDBC
+     val ratingsCsvPath = "data/movielens/ratings.csv"
+     val ratingsDf = spark.read
+                            .format("csv")
+                            .option("header", "true")
+                            .option("inferSchema", "true")
+                            .load(ratingsCsvPath)
+     
+     ratingsDf.printSchema()
+     ratingsDf.show(10)
+     
+     ratingsDf.write
+      .format("jdbc")
+      .option("url", "jdbc:mysql://localhost:3306/sparkdb")
+      .option("driver", "com.mysql.jdbc.Driver")
+      .option("dbtable", "movielens_ratings2")
+      .option("user", "root")
+      .option("password", "cloudera")
+      .mode(SaveMode.Overwrite)
+      .save()
+      
+      
+      spark.close()
+      
+     
+  }
+}
+
+
+   Hive Format - Integrating with Hive
+   -----------------------------------
+
+   val warehouseLocation = new File("warehouse").getAbsolutePath
+    println(warehouseLocation)
+
+    val spark = SparkSession
+            .builder()
+            .appName("DataSourceHive")
+            .config("spark.sql.warehouse.dir", warehouseLocation)
+            .config("spark.master", "local[1]")
+            .enableHiveSupport()
+            .getOrCreate()      
+      
+    import spark.implicits._
+  
+    spark.sparkContext.setLogLevel("ERROR")
+    
+    spark.sql("drop database if exists sparkdemo cascade")
+    spark.sql("create database if not exists sparkdemo")
+    spark.sql("show databases").show()   
+    
+    spark.sql("use sparkdemo")
+    
+    println("Current database: " + spark.catalog.currentDatabase)
+    
+    spark.catalog.listTables().show()
+     
+    val createMovies = 
+      """CREATE TABLE IF NOT EXISTS 
+         movies (movieId INT, title STRING, genres STRING) 
+         ROW FORMAT DELIMITED 
+         FIELDS TERMINATED BY ','"""
+    
+    val loadMovies = 
+      """LOAD DATA LOCAL INPATH 'data/movielens/moviesNoHeader.csv' 
+         OVERWRITE INTO TABLE movies"""
+    
+    val createRatings = 
+      """CREATE TABLE IF NOT EXISTS 
+         ratings (userId INT, movieId INT, rating DOUBLE, timestamp LONG) 
+         ROW FORMAT DELIMITED 
+         FIELDS TERMINATED BY ','"""
+    
+    val loadRatings = 
+      """LOAD DATA LOCAL INPATH 'data/movielens/ratingsNoHeader.csv' 
+         OVERWRITE INTO TABLE ratings"""
+        
+    spark.sql(createMovies)
+    spark.sql(loadMovies)
+    spark.sql(createRatings)
+    spark.sql(loadRatings)
+    
+    spark.catalog.listTables().show()
+     
+    // Queries are expressed in HiveQL
+    val moviesDF = spark.table("movies")   //spark.sql("SELECT * FROM movies")
+    val ratingsDF = spark.table("ratings")  //spark.sql("SELECT * FROM ratings")
+           
+    val summaryDf = ratingsDF
+                      .groupBy("movieId")
+                      .agg(count("rating") as "ratingCount", 
+                           avg("rating") as "ratingAvg")
+                      .filter("ratingCount > 25")
+                      .orderBy(desc("ratingAvg"))
+                      .limit(10)
+              
+    summaryDf.show()
+    
+    val joinStr = summaryDf.col("movieId") === moviesDF.col("movieId")
+    
+    val summaryDf2 = summaryDf
+                     .join(moviesDF, joinStr)
+                     .drop(summaryDf.col("movieId"))
+                     .select("movieId", "title", "ratingCount", "ratingAvg")
+                     .orderBy(desc("ratingAvg"))
+    
+    summaryDf2.show()
+    
+    summaryDf2.write.format("hive").saveAsTable("topRatedMovies")
+    spark.catalog.listTables().show()
+        
+    val topRatedMovies = spark.table("topRatedMovies")  //spark.sql("SELECT * FROM topRatedMovies")
+    topRatedMovies.show() 
+    
+    spark.stop()
+
+
+  ==================================
+    Spark Streaming
+  ==================================
+
+     Spark's real-time data processing API
+
+     Two APIs are available:
+
+	1. Spark Streaming a.k.a DStreams API    (out-dated)
+	2. Structured Streaming	(current and preferred API)
+
+      Spark Streaming (DStreams API)
+      ------------------------------
+
+     => microbatch based processing
+     => Provides "seconds" scale latency.  (near-real-time processing)
+     => does not support event-time processing
+
+       StreamingContext :
+	  -> Is the starting point of execution
+	  -> Defines a micro-batch window
+	  -> Each micro-batch is an RDD
+
+       DStream (discretized stream)
+	  -> Is a continuous flow of RDDs.
+	  -> Each micro-batch is represented as an RDD.
+
+	  
+  	# Create a local StreamingContext with two threads and batch interval of 1 sec.
+	sc = SparkContext("local[2]", "NetworkWordCount")
+	ssc = StreamingContext(sc, 1)
+
+	lines = ssc.socketTextStream("localhost", 9999)
+	words = lines.flatMap(lambda line: line.split(" "))
+	pairs = words.map(lambda word: (word, 1))
+	wordCounts = pairs.reduceByKey(lambda x, y: x + y)
+	wordCounts.print()
+
+	ssc.start()             
+	ssc.awaitTermination() 
+
+
+   Spark Structured Streaming
+   -------------------------- 
+
+	-> Consider the input data stream as the 'Input Table'. 
+	  Every data item that is arriving on the stream is like a new row being appended to the Input Table.
+
+	=> DataFrame -> Unbounded Table
+
+	-> A query on the input will generate the 'Result Table'. 
+
+	-> Every trigger interval (say, every 1 second), new rows get appended to the Input Table, 
+	   which eventually updates the Result Table. 
+
+	-> Whenever the result table gets updated, we would want to write the changed result 
+	   rows to an external sink.
+
+	Output Modes
+	------------
+	The 'Output' is defined as what gets written out to the external storage. 
+	The output can be defined in a different mode:
+
+	* Complete Mode - The entire updated Result Table will be written to the external storage.
+
+	* Append Mode - Only the new rows appended in the Result Table since the last trigger will 
+		      be written to the external storage. 
+
+		      This is applicable only on the queries where existing rows in the 
+		      Result Table are not expected to change.
+
+	* Update Mode - Only the rows that were updated in the Result Table since the last trigger 
+		      will be written to the external storage. 
+
+		      Note that this is different from the Complete Mode in that this mode 
+		      only outputs the rows that have changed since the last trigger. 
+
+		      If the query doesn't contain aggregations, it will be equivalent to Append mode.
+
+
+	Sample Socket Stream Example
+	----------------------------
+
+	from pyspark.sql import SparkSession
+	from pyspark.sql.functions import explode
+	from pyspark.sql.functions import split
+
+	spark = SparkSession \
+    		.builder \
+    		.appName("StructuredNetworkWordCount") \
+    		.getOrCreate()
+
+	lines = spark \
+    		.readStream \
+    		.format("socket") \
+    		.option("host", "localhost") \
+    		.option("port", 9999) \
+    		.load()
+
+	# Split the lines into words
+	words = lines.select( explode(split(lines.value, " ")).alias("word"))
+
+	# Generate running word count
+	wordCounts = words.groupBy("word").count()
+
+	query = wordCounts \
+    		.writeStream \
+    		.outputMode("complete") \
+    		.format("console") \
+    		.start()
+
+	query.awaitTermination() 
+
+
+	=> Sources: File, Socket, Rate, Kafka
+
+	=> Sinks: File, Console, Memory, Kafka, ForEach, ForEachBatch
+ 
+   
+
+  ====================================
+      KAFKA
+  ====================================
+    
+  Challenges in Streaming Analytics
+  ---------------------------------    
+    => Collecting data in real time
+    => Processing data in real time
+    => Data pipeline complexity / unmanagability
+    => Data flow volume mismatch between source and target systems.
+
+  Messaging Systems
+  ------------------
+
+   Solution: messaging systems help you to manage the challenges associated with stream processing
+
+	-> Are used to overcome the complexity and unmanagability of mulitple data pipeline.
+	-> Messaging system decouple data pipeline
+
+	Two types:
+
+	-> Point-to-point messaging systems (Queue)
+		-> Messages produced by a source (producer application) are intended for a specific 
+		   sink (consumer application)
+		-> After the message is consumed, it will be deleted from the queue		
+
+	-> Publisher-Subscriber messaging systems
+		-> Messages are produced by the publishers (producers) to "topics".
+		-> Messages in a topic are not intended for any specific consumer (subscriber).
+		-> Subscribers can subscribe to the "topics" and process the data
+		-> Messages are retained for a pre-configured period (ex: 7 days)
+
+    What is Kafka?
+     --------------	
+      -> Is a distributed streaming platform that is used for :
+
+	1. Publish & subscribe streams of records
+	2. Store streams of records in fault-tolerant way. 
+	3. Process streams of records as they occur (real-time processing)
+	
+     Why Kafka ?
+     -----------
+	-> Building real-time data pipelines (decoupled)
+	-> Building real-time streaming application
+
+     Benefits of Kafka
+     -----------------
+	-> Reliability (distributed, partitioned, replicated)
+	-> Scalability
+	-> Durability (distributed commit-log, intra-cluster replicated)
+	-> High performance
+
+
+  Kafka Architecture
+  ------------------
+
+   1. Zookeeper
+	-> Is a coordination service responsible for managing the 'state' of the cluster
+	-> All brokers send heartbeats to zookeeper. 
+	-> By default runs on port 2181
+	-> Mainly used to notify the producer and consumer of any new brokers in the cluster
+
+   2. Brokers
+	-> Are systems/servers responsible for storing published data
+	-> Each broker is stateless. So they use zookeeper to maintain state.
+	-> Each broker has a unique-id inside a kafka cluster
+	-> Each broker may have zero or more partitions per topic
+
+   3. Topic 
+	-> Is a feed/category to which records are published
+	-> Can be consumed by one or more consumers/subscribers
+	-> For every topic kafka maintains partition-logs (distributed commit logs)
+
+   4. Partitions
+	-> A topic is organized as partitions.
+	-> Each partition is an "ordered commit log"
+   
+   5. Partition Offset
+	-> Each message in a partition has a unique sequence id called "offset"
+
+   6. Replicas
+	-> Backups of a partition.
+	-> The "id" of the replica is same as the broker-id
+	-> They are used to prevent data-loss
+	-> Only one replica acts as a 'leader'
+		-> All reads and writes are served only by these 'leader' replicas.
+		-> If the broker containing 'leader' goes down, an election process is triggered
+		   and one the in-sync replicas (ISR) will be elected as the 'leader' 
+
+   7. Cluster
+	-> When kafka has more than one broker coordinated by the same ZK, it is called a 'Cluster'
+
+   8. Producer
+	   -> Is an application that produce messages to topic (leader) partitions.
+           -> A producer can produce messages to one or more topics
+
+   9. Consumer	
+	   -> Is an application that subscribes to one or more topics (or topic partitions) and
+	      poll messages from the leader replicas of the partitions.
+
+   10. Consumer Groups
+   
+	
+  Kafka APIs
+  ----------
+    1. Producer API => to write producer application 
+
+    2. Consumer API => to write consumer application
+
+    3. Streams API => to write stream processing applications that read from a topic and writes to another topic
+		      (Kafka -> Kafka workloads)
+
+    4. Connector API => To write application that automate data transfer between desparate systems
+
+
+    Getting started with Kafka
+  --------------------------
+
+   1. Installing Kafka
+
+	-> Download Apache Kafka binaries and extract it to a suitable location
+		URL: https://kafka.apache.org/downloads
+	-> This is a the same binaries download for all Operating systems
+
+   2. Understanding the directories
+	
+	-> bin 	  : you have all the commands (sh & bat files) to start various kafka services
+        -> config : all configuration files are located here
+	-> libs   : has all the libraries (that you can add to your java projects to start using them)
+
+   3. Start Zookeeper service
+
+	  cd <kafka-installation-directory>	  
+	  bin/zookeeper-server-start.sh config/zookeeper.properties
+
+   4. Start Kafka broker service
+
+	 bin/kafka-server-start.sh config/server.properties
+
+   5. Topic Operations
+
+	 bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+	 bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic t1
+	 bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic t1 --partitions 4 --replication-factor 1
+	 bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic t1
+
+   6. Launch a Kafka Console Producer to write messages to Kafka
+	
+	bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic t1
+	bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic t1 --property "parse.key=true" --property "key.separator=:"
+
+   7. Launch a Kafka Console Consumer to read messages from Kafka
+
+	bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic t1
+	bin/kafka-console-consumer.sh --bootstrap-server localhost:9092   --topic t1 --property print.key=true --property print.value=true --property key.separator=" | "
+
+	Consumer Group
+	--------------
+	bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ctstopic --property print.key=true --property print.value=true --property key.separator=" | " --group ctstopic-group-1
+
+   8. Consumer Groups
+
+	bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+	bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group ctstopic-group-1
+	
+	
+   Important Configurations
+   ------------------------
+	broker.id=0
+	listeners=PLAINTEXT://:9092
+	log.dirs=/tmp/kafka-logs
+	zookeeper.connect=localhost:2181
+	log.retention.hours=168
+
+
+   Important Ports (defaults)
+   --------------------------
+   1. Zookeeper : 2181
+   2. Brokers   : 9092
+
+
+   Setting up Single-node Multi-broker Cluster
+   -------------------------------------------	
+		
+  				broker-id	port	log-dir
+   	-------------------------------------------------------------------
+  	server.properties	0		9092	/tmp/kafka-logs
+  	server1.properties	1		9093	/tmp/kafka-logs-1
+  	server2.properties	2		9094	/tmp/kafka-logs-2
+
+ 
+
+
+
+
+
+
+
+
+
+
+   	
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
