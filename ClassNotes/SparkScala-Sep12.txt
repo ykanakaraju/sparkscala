@@ -1,0 +1,174 @@
+ 
+  Agenda (Spark using Scala)
+  -----------------------------------------
+   Scala
+	-> Language Basics
+	-> Funtional Programming Basics
+	-> OOP Basics
+   Spark - Basics & Architecture
+   Spark Core API
+	-> RDD - Transformations & Actions
+	-> Spark shared variables
+   Spark Submit command
+   Spark SQL
+	-> DataFrame Operations
+	-> Integrations - RDBMS & Hive
+   Spark Streaming
+	-> Structured Streaming
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules 
+	=> Class Notes 
+        => Github: https://github.com/ykanakaraju/
+
+ ===============================================================
+
+  
+
+   Getting started with Spark with Scala
+   --------------------------------------
+
+   1. Installing the IDE
+
+	-> Download Apache Spark and work with the Scala shell
+
+		Url: https://spark.apache.org/downloads.html
+		Download the .tgz file and extract it to a suitable place.
+
+		Add the <Spark-Path>\bin to your PATH environment variable.
+
+		Open a Command terminal and type "spark-shell"
+	
+	-> Scala IDE for Eclipse
+
+		-> Make sure that you are running Java 8 or above (JDK 1.8.xx)
+		-> Download Scala IDE for Eclispe and extract the zip file.
+			https://scala-ide.org/download/sdk.html
+		-> Extract the zip file to a suitable directory
+			-> Navigate to 'eclispe' folder and launch the application	
+
+	-> IntelliJ (with Scala Plugin)
+		https://docs.scala-lang.org/getting-started/intellij-track/getting-started-with-scala-in-intellij.html
+
+
+  2. Signup to 'Databricks Community Edition' (Free)
+
+	Signup: https://www.databricks.com/try-databricks#account
+	
+		-> Fill the details with valid Email address and Next
+		-> Select the "Get started with Community Edition" link (not 'Continue' button)
+		-> Complete the process by following instruction the email sent to you
+
+	Login: https://community.cloud.databricks.com/login.html
+
+
+
+  Scala Programming language
+  --------------------------
+
+    -> Scala is a multi-paradigm programming language
+
+	-> Scala is functional programming language
+	-> Scala is a pure object oriented programming language
+		    
+     
+   -> Scala is pure object oriented programming language
+
+	-> Scala has no primitives
+	-> Scala has no operators
+	-> Everything in Scala is a 'instance' of some class/trait
+	-> All operators are methods in scala.
+
+
+  -> Scala Types
+
+	-> immutable : unchangable, use 'val'
+	-> mutable : changable, use 'var'
+
+
+  -> Type declaration
+
+	val i : Int = 10
+	val name : String = "Raju"
+	val flag : Boolean = true
+	val hobbies : List[Int] = List("cricket", "chess", "reading")
+
+
+   -> Scala infers the types based on the value assigned. 
+
+	val i = 10
+	val name = "Raju"
+	val flag = true
+	val hobbies = List("cricket", "chess", "reading")
+
+
+   -> Scala is a statically typed language
+
+	-> The data type of every variable is determined at compile time.
+	-> Once declared the type can not be changed.
+
+
+   ->  Scala Blocks
+
+	-> A block is a set of statements enclosed in  { .. }
+	-> A block returns a value
+	-> The return value of the block is the value of the last executed statement/expression.
+
+
+  -> Scala 'Unit'
+
+	-> In Scala, Unit is an object that has no value
+        -> Printed as "()"
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
