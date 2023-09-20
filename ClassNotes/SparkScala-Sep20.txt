@@ -1,0 +1,667 @@
+ 
+  Agenda (Spark using Scala)
+  -----------------------------------------
+   Scala
+	-> Language Basics
+	-> Funtional Programming Basics
+	-> OOP Basics
+   Spark - Basics & Architecture
+   Spark Core API
+	-> RDD - Transformations & Actions
+	-> Spark shared variables
+   Spark Submit command
+   Spark SQL
+	-> DataFrame Operations
+	-> Integrations - RDBMS & Hive
+   Spark Streaming
+	-> Structured Streaming
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules 
+	=> Class Notes 
+        => Github: https://github.com/ykanakaraju/
+
+ ===============================================================
+
+  
+
+   Getting started with Spark with Scala
+   --------------------------------------
+
+
+   1. Download Apache Spark and work with the Scala shell
+
+	Url: https://spark.apache.org/downloads.html
+	Download the .tgz file and extract it to a suitable place.
+
+	Add the <Spark-Path>\bin to your PATH environment variable.
+
+	Open a Command terminal and type "spark-shell"
+
+
+   2. Installing the IDE	
+	
+	-> Scala IDE for Eclipse
+
+		-> Make sure that you are running Java 8 or above (JDK 1.8.xx)
+		-> Download Scala IDE for Eclispe and extract the zip file.
+			https://scala-ide.org/download/sdk.html
+		-> Extract the zip file to a suitable directory
+			-> Navigate to 'eclispe' folder and launch the application	
+
+	-> IntelliJ (with Scala Plugin)
+		https://docs.scala-lang.org/getting-started/intellij-track/getting-started-with-scala-in-intellij.html
+
+
+   3. Signup to 'Databricks Community Edition' (Free)
+
+	Signup: https://www.databricks.com/try-databricks#account
+	
+		-> Fill the details with valid Email address and Next
+		-> Select the "Get started with Community Edition" link (not 'Continue' button)
+		-> Complete the process by following instruction the email sent to you
+
+	Login: https://community.cloud.databricks.com/login.html
+
+
+  Scala Programming language
+  --------------------------
+
+  -> Scala is a multi-paradigm programming language
+
+	-> Scala is functional programming language
+	-> Scala is a pure object oriented programming language
+		    
+     
+  -> Scala is pure object oriented programming language
+
+	-> Scala has no primitives
+	-> Scala has no operators
+	-> Everything in Scala is a 'instance' of some class/trait
+	-> All operators are methods in scala.
+
+
+  -> Scala Types
+
+	-> immutable : unchangable, use 'val'
+	-> mutable : changable, use 'var'
+
+
+  -> Type declaration
+
+	val i : Int = 10
+	val name : String = "Raju"
+	val flag : Boolean = true
+	val hobbies : List[Int] = List("cricket", "chess", "reading")
+
+
+  -> Scala infers the types based on the value assigned. 
+
+	val i = 10
+	val name = "Raju"
+	val flag = true
+	val hobbies = List("cricket", "chess", "reading")
+
+
+  -> Scala is a statically typed language
+
+	-> The data type of every variable is determined at compile time.
+	-> Once declared, the type can not be changed.
+
+
+  ->  Scala Blocks
+
+	-> A block is a set of statements enclosed in  { .. }
+	-> A block returns a value
+	-> The return value of the block is the value of the last executed statement/expression.
+
+
+  -> Scala 'Unit'
+
+	-> In Scala, Unit is an object that has no value
+        -> Printed as "()"
+ 
+
+  -> Scala Class Heirarchy
+
+	    Any => AnyVal => Int, Long, Double, Boolean, Char, Unit, ...
+		=> AnyRef => String, List, Seq, .....
+
+
+  -> String interpolations
+
+	's' interpolator
+	
+		val str = s"Name: $name, Age:${age + 10}, Height: $height"
+  		println(str)
+
+	'f' interpolator => s + formatting chars
+
+		 val str = f"Name: $name, Age:$age, Height: $height%2.2f"
+  		println(str)
+
+	'raw' interpolator => s + escapes the escape chars
+
+  		val str = raw"E:\newdir\table1.txt"
+  		println(str)
+
+
+  -> Input & Output
+
+
+	   val name = StdIn.readLine("What is your name?")   
+	   println(name)
+	   
+	   print("What is your age?")
+	   val age = StdIn.readInt()
+		
+           ---------------------------------
+
+	   printf("Name: %s, Age: %d, Height: %4.2f", name, age, height)
+
+
+  -> Flow Control Constructs
+
+	
+      	if..else
+
+		val ageGroup = if (age < 13) "Child"
+			  else if (age < 20) "Teenager"      
+			  else if (age < 60) "Adult"      
+			  else "Senior"
+     
+
+	match..case
+	
+		ageGroup = age match {
+			case x if ( x < 13 ) => s"child ($x)"
+			case x if ( x < 20 ) =>  s"teenager ($x)"
+			case x if ( x < 60 ) =>  s"adult ($x)"
+			case _ => { "senior" }
+		  }     
+
+
+  -> Range Object
+
+	Range(1, 10) => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 2) => 1,3,5,7,9
+	1 until 10 by 2 => 1,3,5,7,9
+	1 to 10 => 1,2,3,4,5,6,7,8,9,10 (Range.Inclusive)
+        1 until 10 => 1,2,3,4,5,6,7,8,9
+	1 to 11 by 2 => 1,3,5,7,9,11 (Range.Inclusive)
+	1 until 11 by 2 => 1,3,5,7,9
+
+
+  Loops
+  ------
+     
+      	while
+	------
+		var x = 20
+		  
+		  
+		  while ( x > 0 ) {
+			println(x)
+			
+			x -= 1
+		  }
+
+
+	do..while
+  	---------
+		var x = 20  
+		  do {
+			println(x)    
+			x -= 1
+		  } while ( x > 0 )
+
+
+	foreach
+	--------
+		List("Scala", "Python", "Java").foreach( x => println( x.toUpperCase ) )
+		(1 to 100 by 2).foreach(println)
+
+
+	for
+	----
+		
+		// simpl e for loop
+		for( a <- 1 to 10 ) {
+		   println(s"a = $a")
+		}
+		
+		// nested for loop
+		for( a <- 1 to 10; b <- 1 until 20 by 5; c <- List("Scala", "Python") ) {
+			println(s"a = $a, b = $b, c=$c")
+		}
+
+		// for loop with guards
+		for( a <- 1 to 10 if (a%2 == 0); b <- 0 to 10 by 2 if (b > a) ) {
+			println(s"a = $a, b = $b")
+		}
+
+		//for comprehension
+		val v1 = for( a <- 1 to 10 ) yield((a, a*2))
+
+
+  Exception handling
+  ------------------
+
+	try {
+	    ... some code ...
+	}
+	catch {		
+           case e1: FileNotFoundException => { ... }
+	   case e2: IOException => { ... }
+	   case e3: Exception => { ... }
+	}
+	finally {
+		...
+	}	
+
+
+  Collections
+  ------------
+
+	Three types of collections
+
+	1. Sequences -> Ordered collection whose objects can be accessed using index
+
+		1.1 IndexedSeq => Array, ArrayBuffer, Vector, Range
+			-> Good of random access of the elements
+
+		1.2 LinearSeq => List, ListBuffer, Stream, Queue
+			-> Good for iterations and loops
+
+
+	2. Map -> Collection of (key, value) pairs
+
+		val m1 = Map( 1 -> 10, 2 -> 20, 5 -> 50, 9 -> 90 )
+
+		m1(1) => 10
+		m1(10) => java.util.NoSuchElementException: key not found: 10
+
+		m1.get(1) => Some(10)
+		m1.get(10) => None
+
+		m1.getOrElse(1, 0) => 10
+		m1.getOrElse(2, 0) => 20
+		m1.getOrElse(10, 0) => 0
+
+
+	3. Set -> Unordered collection of unique objects
+
+
+  Option  : represents an object which may or may-not have a value.
+
+	If there is a value, Option will return "Some" object
+	If there is no value, Option will return "None" object
+
+	val x : Option[Int] => Some(Int) or None
+
+
+  Tuple :    Is an object that holds multiple elements of different types
+	     Tuple is not a collection
+	     A tuple with two elements id called a 'Pair'   
+
+	val t1 = (1, 1.5, true, 10, List(1,1), ("Hi", 10.5))
+	
+	t1._1   => 1
+	t1._3 => true
+	t1._6._2 => 10.5
+
+
+
+  Methods and Procedures
+  ----------------------
+   
+     => Reusable code blocks
+
+     => Method returns somes output
+	Procedure returns no output (Returns 'Unit')
+   
+
+
+      Methods
+      -------
+
+		 def sum(a: Int, b: Int, c: Int) : Int = {       
+		   a + b + c 
+		 }
+		
+              	 // calling by position
+		 val s = sum(10, 20, 30)		 
+		 println(s"s = $s")
+
+		 // calling by name
+		 val s = sum(b=10, a=20, c=30)
+
+		 // mixing positional and named params
+	         // postitional params must be given first
+		 def sum(a: Int, b: Int, c: Int, d: Int) : Int = {   
+		   println(s"a = $a, b = $b, c = $c, d = $d")   
+		   a + b + c + d
+		 }
+		
+		 val s = sum(10, 20, d=30, c=40)
+
+		 // methods with default values
+		 def sum(a: Int, b: Int, c: Int=0, d: Int=0) : Int = {   
+		   println(s"a = $a, b = $b, c = $c, d = $d")   
+		   a + b + c + d
+		 }
+		
+		 val s = sum(10, 20, 30, 40)
+		 val s = sum(10, 20, 30)
+		 val s = sum(10, 20)
+		 val s = sum(10, 20, d=50)
+
+		//methods with variable length arguments
+		def sum(a: Int, b: Int*) : Int = {        
+			  var sum = 0
+			  var i = 1
+			  
+			  println(s"a = $a")
+			  
+			  for( x <- b ){
+				println(s"b $i = $x")
+				sum += x
+				i += 1
+			  }          
+			  sum + a          
+		 }
+		
+		 val s = sum(10)
+		 
+		 println(s"s = $s")
+
+   		 // recursive methods
+		 def factorial(n: Int): Long = {  
+			  if (n <= 1)
+				 1  
+			  else    
+				 n * factorial(n - 1)
+		 }				
+		 println( factorial(5) )
+
+
+	Procedures
+        ----------
+		def printInABox(s: String) {     
+			val line = "-" * s.length()
+			println("----" + line + "\n| " + s + " |\n" + line + "----")
+		}
+	   
+		printInABox("Spark is a framework") 
+
+
+  Functions
+  ---------
+	
+	-> A functional programming language treats a function like a literal.
+	-> A function is anonymous by nature
+
+		(<zero or more args>) => { ..some block of code }
+		(a : Int, b: Int) => a + b 
+
+		println( (a : Int, b: Int) => a + b,  ((a : Int, b: Int) => a + b)(10, 20)  )
+
+	-> A function can be assigned to a variable (called named function)
+
+	-> A function can be passed as an argument to a function or method
+
+			def f1(a: Int, b: Int, f: (Int, Int) => Int) = f(a, b)
+			
+			val f2 = (a: Int, b: Int, f: (Int, Int) => Int) => f(a, b)
+			
+			val sum = (x: Int, y: Int) => x + y
+			val prod = (x: Int, y: Int) => x * y
+			val q = (x: Int, y: Int) => x / y
+			
+			def sum1(x: Int, y: Int) = x + y
+				
+			println( f2(20, 3, sum1) )
+
+	-> A function/method can return a function
+
+			def calculate(op : String) = {      
+			  op match {
+				case "+" => (a: Int, b: Int) => a + b
+				case "-" => (a: Int, b: Int) => a - b
+				case "*" => (a: Int, b: Int) => a * b
+				case "/" => (a: Int, b: Int) => a / b
+				case _ => (a: Int, b: Int) => a % b
+			  }
+			}
+			 
+			val s = calculate("+")
+			val p = calculate("*")
+			val m = calculate("blah")
+			
+			println( m(100, 30) ) 
+
+
+	Function literal				Function Type
+	--------------------------------------------------------------------
+	(a: Int) => a * a				Int => Int
+	(s: String) => s.length				String => Int
+	(a: Int, b: Int) => a + b			(Int, Int) => Int
+	(s: String) => println(s)			String => Unit
+	() => "Windows 10"				() => String
+	(a: Int, b: Int) => List(a, b)			(Int, Int) => List[Int]
+	(a: (Int, Int), b: (Int, Int)) 			((Int, Int), (Int, Int)) => (Int, Int)
+	   => (a._1 + b._1, a._2 + b._2)
+	(a: Int, b: Int, f: (Int, Int) => Int) 		 (Int, Int, (Int, Int) => Int) => Int
+			=> f(a, b)
+
+
+  Higher Order Functions
+  ----------------------
+   => HOFs are those that take a function (or method) as a parameter or those that return a function.
+
+
+  1. map		P: U => V
+			Transforms an input collection to an output collection by applying the function
+			object to object transformation.
+
+			val l1 = List(1,2,3,6,4,3,5,6,9,6,5,8).map( x = x*10 )
+
+
+  2. filter		P: U => Boolean
+			Returns an output collection by filtering the input collection based on the function
+
+			val l1 = List(1,2,3,6,4,3,5,6,9,6,5,8).filter( x = x > 4 )
+
+
+  3. reduce		reduceLeft (reduce) & reduceRight
+			P: (U, U) => U
+			Reduces an entire collection to a single value of the same type by iterativly 
+			appying the function
+
+			List(1,2,3,6,4,3,5,6,9,6,5,8).reduceLeft( (x, y) = x + y )
+			List(1,2,3,6,4,3,5,6,9,6,5,8).reduceRight( (x, y) = x + y )
+
+		
+  4. mapValues		P: U => V
+			Operates only on map objects
+			Transforms the value part of the key-value pairs		
+
+			val m1 = Map( 1 -> 10, 2 -> 20, 3 -> 30, 4 -> 40 )
+			val m2 = m1.mapValues(v => (v, 1))
+			m2: scala.collection.immutable.Map[Int,(Int, Int)] = Map(1 -> (10,1), 2 -> (20,1), 3 -> (30,1), 4 -> (40,1))
+
+
+  5. flatMap		P: U -> GenTranversableOnce[V]
+			flatMap flattens the iterables returned by the function.
+
+			val l1 = Source.fromFile("E:\\Spark\\wordcount.txt").getLines.toList
+			val words = l1.flatMap(x => x.split(" ")) 
+			
+
+
+  6. sortWith		P: U => <binary sorting expression>
+			Elements of the collection are sorted based on the binary sorting function
+
+			words.sortWith( (x,y) => x.length < y.length )
+
+
+  7. groupBy		P: U => V
+			Returns a map, where
+				key: each unique value of the function output
+				values: Iterable with all the values that produced the key.
+
+			words.groupBy(x => x).mapValues( _.length )
+			
+
+
+   Use-Case: Wordcount program using Scala HOFs
+
+	val file = raw"E:\Spark\wordcount.txt"
+     
+        val data = Source.fromFile(file)
+                 .getLines
+                 .flatMap(x => x.split(" "))
+                 .toList
+                 .groupBy(w => w)
+                 .mapValues(l => l.length)
+                 .toList
+                 .sortWith( (x,y) => x._2 > y._2 )
+                 
+
+
+
+  Object Oriented Programming in Scala
+  -------------------------------------
+
+	-> class   	=> class, case class, abstract class, sealed class
+	-> object	=> object, case object
+	-> trait
+	-> package object
+
+
+   class
+   -----
+	-> In Scala, a class is not declared as public. 
+	-> A Scala source file can contain multiple classes, and all of them have public visibility. 
+	-> All class methods and properties are 'public' by default
+	
+
+
+   Constructors
+   -------------
+
+	-> In Scala, every class should have one primary constructor 
+	    and optionally  additional auxiliary constructors.
+
+	-> The auxiliary constructors are defined with method 'this'. 
+	   Each auxiliary constructor must start with a call to a previously defined 
+	   auxiliary constructor or the primary constructor.
+
+	-> In Scala, every class has a primary constructor. 
+	   The primary constructor is not defined with a this method. 
+	   It is interwoven with the class definition.
+
+	-> The parameters of the primary constructor are placed immediately after the class name. 
+	   The primary constructor executes all statements in the class definition.
+
+
+
+	import scala.io._
+	import scala.math._
+
+	object Demo1 extends App {
+				
+		val p1 = new Person()                // calling PC
+		p1.setName("Raju")
+		p1.setAge(45)
+		p1.printProperties()
+			
+		println("-------------------------")
+		
+		val p2 = new Person(2)              // calling AC 1
+		p2.setName("Ramesh")
+		p2.setAge(35)
+		p2.printProperties()
+		
+		println("-------------------------")   
+		
+		val p3 = new Person(3, "Ravi")     // calling AC 2
+		p3.setAge(35)
+		p3.printProperties()
+		
+		println("-------------------------") 
+		
+		val p4 = new Person(3, "Rajesh", 25)     // calling AC 2
+		p4.printProperties()
+		
+	}
+
+	class Person {  
+	   
+	   private var _id = -1
+	   private var _name = "Anonymous"
+	   private var _age = -1  
+	   
+	   println("Executing primary constructor")
+	   //println(_id, _name, _age)
+	   
+	   // AC - 1
+	   def this(id: Int) {
+		 this()       // calling PC
+		 this._id = id
+		 println("Executing auxiliary constructor with no parameters")
+	   }
+	   
+	   // AC - 2
+	   def this(id: Int, name: String) {
+		 this(id)
+		 this._name = name
+		 println("Executing auxiliary constructor with 2 parameters")
+	   }
+	   
+	   // AC - 3
+	   def this(id: Int, name: String, age: Int) {
+		 this(id, name)
+		 this._age = age
+		 println("Executing auxiliary constructor with 3 parameters")
+	   }
+		  
+	   def getId = _id   
+	   //def setId(id: Int) = this._id = id
+	   
+	   def getName = _name
+	   
+	   def setName(name: String) = this._name = name
+	   
+	   def getAge = _age
+	   
+	   def setAge(age: Int) = {
+		 if (this._age < age) this._age = age     
+	   }
+	   
+	   def printProperties() {
+		 println(s"id = ${_id}, name=${_name}, age=${_age}")
+	   }
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
