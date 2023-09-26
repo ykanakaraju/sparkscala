@@ -887,9 +887,17 @@
   ------------------------
 	
 	1. Narrow Transformations
+           -> Narrow transformations are those, where the computation of each partition depends ONLY
+              on its input partition.
+           -> There is no shuffling of data.
+           -> Simple and efficient
 
 
-	2. Wide Transformations
+      	2. Wide Transformations
+           -> In wide transformations, the computation of a single partition depends on all/many
+              partitions of its input RDD.
+           -> Data shuffle across partitions will happen.
+           -> Complex and expensive
 
 
   RDD Persistence
