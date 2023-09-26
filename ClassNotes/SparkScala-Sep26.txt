@@ -1,0 +1,1052 @@
+ 
+  Agenda (Spark using Scala)
+  -----------------------------------------
+   Scala
+	-> Language Basics
+	-> Funtional Programming Basics
+	-> OOP Basics
+   Spark - Basics & Architecture
+   Spark Core API
+	-> RDD - Transformations & Actions
+	-> Spark shared variables
+   Spark Submit command
+   Spark SQL
+	-> DataFrame Operations
+	-> Integrations - RDBMS & Hive
+   Spark Streaming
+	-> Structured Streaming
+
+  Materials
+  ---------
+	=> PDF Presentations
+	=> Code Modules 
+	=> Class Notes 
+        => Github: https://github.com/ykanakaraju/
+
+ ===============================================================
+
+  
+
+   Getting started with Spark with Scala
+   --------------------------------------
+
+
+   1. Download Apache Spark and work with the Scala shell
+
+	Url: https://spark.apache.org/downloads.html
+	Download the .tgz file and extract it to a suitable place.
+
+	Add the <Spark-Path>\bin to your PATH environment variable.
+
+	Open a Command terminal and type "spark-shell"
+
+
+   2. Installing the IDE	
+	
+	-> Scala IDE for Eclipse
+		-> Make sure that you are running Java 8 or above (JDK 1.8.xx)
+		-> Download Scala IDE for Eclispe and extract the zip file.
+			https://scala-ide.org/download/sdk.html
+		-> Extract the zip file to a suitable directory
+			-> Navigate to 'eclispe' folder and launch the application	
+
+	-> IntelliJ (with Scala Plugin)
+		https://docs.scala-lang.org/getting-started/intellij-track/getting-started-with-scala-in-intellij.html
+
+
+   3. Signup to 'Databricks Community Edition' (Free)
+
+	Signup: https://www.databricks.com/try-databricks#account
+	
+		-> Fill the details with valid Email address and Next
+		-> Select the "Get started with Community Edition" link (not 'Continue' button)
+		-> Complete the process by following instruction the email sent to you
+
+	Login: https://community.cloud.databricks.com/login.html
+
+
+  Scala Programming language
+  --------------------------
+
+  -> Scala is a multi-paradigm programming language
+
+	-> Scala is functional programming language
+	-> Scala is a pure object oriented programming language
+		    
+     
+  -> Scala is pure object oriented programming language
+
+	-> Scala has no primitives
+	-> Scala has no operators
+	-> Everything in Scala is a 'instance' of some class/trait
+	-> All operators are methods in scala.
+
+
+  -> Scala Types
+
+	-> immutable : unchangable, use 'val'
+	-> mutable : changable, use 'var'
+
+
+  -> Type declaration
+
+	val i : Int = 10
+	val name : String = "Raju"
+	val flag : Boolean = true
+	val hobbies : List[Int] = List("cricket", "chess", "reading")
+
+
+  -> Scala infers the types based on the value assigned. 
+
+	val i = 10
+	val name = "Raju"
+	val flag = true
+	val hobbies = List("cricket", "chess", "reading")
+
+
+  -> Scala is a statically typed language
+
+	-> The data type of every variable is determined at compile time.
+	-> Once declared, the type can not be changed.
+
+
+  ->  Scala Blocks
+
+	-> A block is a set of statements enclosed in  { .. }
+	-> A block returns a value
+	-> The return value of the block is the value of the last executed statement/expression.
+
+
+  -> Scala 'Unit'
+
+	-> In Scala, Unit is an object that has no value
+        -> Printed as "()"
+ 
+
+  -> Scala Class Heirarchy
+
+	    Any => AnyVal => Int, Long, Double, Boolean, Char, Unit, ...
+		=> AnyRef => String, List, Seq, .....
+
+
+  -> String interpolations
+
+	's' interpolator
+	
+		val str = s"Name: $name, Age:${age + 10}, Height: $height"
+  		println(str)
+
+	'f' interpolator => s + formatting chars
+
+		 val str = f"Name: $name, Age:$age, Height: $height%2.2f"
+  		println(str)
+
+	'raw' interpolator => s + escapes the escape chars
+
+  		val str = raw"E:\newdir\table1.txt"
+  		println(str)
+
+
+  -> Input & Output
+
+
+	   val name = StdIn.readLine("What is your name?")   
+	   println(name)
+	   
+	   print("What is your age?")
+	   val age = StdIn.readInt()
+		
+           ---------------------------------
+
+	   printf("Name: %s, Age: %d, Height: %4.2f", name, age, height)
+
+
+  -> Flow Control Constructs
+
+	
+      	if..else
+
+		val ageGroup = if (age < 13) "Child"
+			  else if (age < 20) "Teenager"      
+			  else if (age < 60) "Adult"      
+			  else "Senior"
+     
+
+	match..case
+	
+		ageGroup = age match {
+			case x if ( x < 13 ) => s"child ($x)"
+			case x if ( x < 20 ) =>  s"teenager ($x)"
+			case x if ( x < 60 ) =>  s"adult ($x)"
+			case _ => { "senior" }
+		  }     
+
+
+  -> Range Object
+
+	Range(1, 10) => 1,2,3,4,5,6,7,8,9
+	Range(1, 10, 2) => 1,3,5,7,9
+	1 until 10 by 2 => 1,3,5,7,9
+	1 to 10 => 1,2,3,4,5,6,7,8,9,10 (Range.Inclusive)
+        1 until 10 => 1,2,3,4,5,6,7,8,9
+	1 to 11 by 2 => 1,3,5,7,9,11 (Range.Inclusive)
+	1 until 11 by 2 => 1,3,5,7,9
+
+
+  Loops
+  ------
+     
+      	while
+	------
+		var x = 20
+		  
+		  
+		  while ( x > 0 ) {
+			println(x)
+			
+			x -= 1
+		  }
+
+
+	do..while
+  	---------
+		var x = 20  
+		  do {
+			println(x)    
+			x -= 1
+		  } while ( x > 0 )
+
+
+	foreach
+	--------
+		List("Scala", "Python", "Java").foreach( x => println( x.toUpperCase ) )
+		(1 to 100 by 2).foreach(println)
+
+
+	for
+	----
+		
+		// simpl e for loop
+		for( a <- 1 to 10 ) {
+		   println(s"a = $a")
+		}
+		
+		// nested for loop
+		for( a <- 1 to 10; b <- 1 until 20 by 5; c <- List("Scala", "Python") ) {
+			println(s"a = $a, b = $b, c=$c")
+		}
+
+		// for loop with guards
+		for( a <- 1 to 10 if (a%2 == 0); b <- 0 to 10 by 2 if (b > a) ) {
+			println(s"a = $a, b = $b")
+		}
+
+		//for comprehension
+		val v1 = for( a <- 1 to 10 ) yield((a, a*2))
+
+
+  Exception handling
+  ------------------
+
+	try {
+	    ... some code ...
+	}
+	catch {		
+           case e1: FileNotFoundException => { ... }
+	   case e2: IOException => { ... }
+	   case e3: Exception => { ... }
+	}
+	finally {
+		...
+	}	
+
+
+  Collections
+  ------------
+
+	Three types of collections
+
+	1. Sequences -> Ordered collection whose objects can be accessed using index
+
+		1.1 IndexedSeq => Array, ArrayBuffer, Vector, Range
+			-> Good of random access of the elements
+
+		1.2 LinearSeq => List, ListBuffer, Stream, Queue
+			-> Good for iterations and loops
+
+
+	2. Map -> Collection of (key, value) pairs
+
+		val m1 = Map( 1 -> 10, 2 -> 20, 5 -> 50, 9 -> 90 )
+
+		m1(1) => 10
+		m1(10) => java.util.NoSuchElementException: key not found: 10
+
+		m1.get(1) => Some(10)
+		m1.get(10) => None
+
+		m1.getOrElse(1, 0) => 10
+		m1.getOrElse(2, 0) => 20
+		m1.getOrElse(10, 0) => 0
+
+
+	3. Set -> Unordered collection of unique objects
+
+
+  Option  : represents an object which may or may-not have a value.
+
+	If there is a value, Option will return "Some" object
+	If there is no value, Option will return "None" object
+
+	val x : Option[Int] => Some(Int) or None
+
+
+  Tuple :    Is an object that holds multiple elements of different types
+	     Tuple is not a collection
+	     A tuple with two elements id called a 'Pair'   
+
+	val t1 = (1, 1.5, true, 10, List(1,1), ("Hi", 10.5))
+	
+	t1._1   => 1
+	t1._3 => true
+	t1._6._2 => 10.5
+
+
+
+  Methods and Procedures
+  ----------------------
+   
+     => Reusable code blocks
+
+     => Method returns somes output
+	Procedure returns no output (Returns 'Unit')
+   
+
+
+      Methods
+      -------
+
+		 def sum(a: Int, b: Int, c: Int) : Int = {       
+		   a + b + c 
+		 }
+		
+              	 // calling by position
+		 val s = sum(10, 20, 30)		 
+		 println(s"s = $s")
+
+		 // calling by name
+		 val s = sum(b=10, a=20, c=30)
+
+		 // mixing positional and named params
+	         // postitional params must be given first
+		 def sum(a: Int, b: Int, c: Int, d: Int) : Int = {   
+		   println(s"a = $a, b = $b, c = $c, d = $d")   
+		   a + b + c + d
+		 }
+		
+		 val s = sum(10, 20, d=30, c=40)
+
+		 // methods with default values
+		 def sum(a: Int, b: Int, c: Int=0, d: Int=0) : Int = {   
+		   println(s"a = $a, b = $b, c = $c, d = $d")   
+		   a + b + c + d
+		 }
+		
+		 val s = sum(10, 20, 30, 40)
+		 val s = sum(10, 20, 30)
+		 val s = sum(10, 20)
+		 val s = sum(10, 20, d=50)
+
+		//methods with variable length arguments
+		def sum(a: Int, b: Int*) : Int = {        
+			  var sum = 0
+			  var i = 1
+			  
+			  println(s"a = $a")
+			  
+			  for( x <- b ){
+				println(s"b $i = $x")
+				sum += x
+				i += 1
+			  }          
+			  sum + a          
+		 }
+		
+		 val s = sum(10)
+		 
+		 println(s"s = $s")
+
+   		 // recursive methods
+		 def factorial(n: Int): Long = {  
+			  if (n <= 1)
+				 1  
+			  else    
+				 n * factorial(n - 1)
+		 }				
+		 println( factorial(5) )
+
+
+	Procedures
+        ----------
+		def printInABox(s: String) {     
+			val line = "-" * s.length()
+			println("----" + line + "\n| " + s + " |\n" + line + "----")
+		}
+	   
+		printInABox("Spark is a framework") 
+
+
+  Functions
+  ---------
+	
+	-> A functional programming language treats a function like a literal.
+	-> A function is anonymous by nature
+
+		(<zero or more args>) => { ..some block of code }
+		(a : Int, b: Int) => a + b 
+
+		println( (a : Int, b: Int) => a + b,  ((a : Int, b: Int) => a + b)(10, 20)  )
+
+	-> A function can be assigned to a variable (called named function)
+
+	-> A function can be passed as an argument to a function or method
+
+			def f1(a: Int, b: Int, f: (Int, Int) => Int) = f(a, b)
+			
+			val f2 = (a: Int, b: Int, f: (Int, Int) => Int) => f(a, b)
+			
+			val sum = (x: Int, y: Int) => x + y
+			val prod = (x: Int, y: Int) => x * y
+			val q = (x: Int, y: Int) => x / y
+			
+			def sum1(x: Int, y: Int) = x + y
+				
+			println( f2(20, 3, sum1) )
+
+	-> A function/method can return a function
+
+			def calculate(op : String) = {      
+			  op match {
+				case "+" => (a: Int, b: Int) => a + b
+				case "-" => (a: Int, b: Int) => a - b
+				case "*" => (a: Int, b: Int) => a * b
+				case "/" => (a: Int, b: Int) => a / b
+				case _ => (a: Int, b: Int) => a % b
+			  }
+			}
+			 
+			val s = calculate("+")
+			val p = calculate("*")
+			val m = calculate("blah")
+			
+			println( m(100, 30) ) 
+
+
+	Function literal				Function Type
+	--------------------------------------------------------------------
+	(a: Int) => a * a				Int => Int
+	(s: String) => s.length				String => Int
+	(a: Int, b: Int) => a + b			(Int, Int) => Int
+	(s: String) => println(s)			String => Unit
+	() => "Windows 10"				() => String
+	(a: Int, b: Int) => List(a, b)			(Int, Int) => List[Int]
+	(a: (Int, Int), b: (Int, Int)) 			((Int, Int), (Int, Int)) => (Int, Int)
+	   => (a._1 + b._1, a._2 + b._2)
+	(a: Int, b: Int, f: (Int, Int) => Int) 		 (Int, Int, (Int, Int) => Int) => Int
+			=> f(a, b)
+
+
+  Higher Order Functions
+  ----------------------
+   => HOFs are those that take a function (or method) as a parameter or those that return a function.
+
+
+  1. map		P: U => V
+			Transforms an input collection to an output collection by applying the function
+			object to object transformation.
+
+			val l1 = List(1,2,3,6,4,3,5,6,9,6,5,8).map( x = x*10 )
+
+
+  2. filter		P: U => Boolean
+			Returns an output collection by filtering the input collection based on the function
+
+			val l1 = List(1,2,3,6,4,3,5,6,9,6,5,8).filter( x = x > 4 )
+
+
+  3. reduce		reduceLeft (reduce) & reduceRight
+			P: (U, U) => U
+			Reduces an entire collection to a single value of the same type by iterativly 
+			appying the function
+
+			List(1,2,3,6,4,3,5,6,9,6,5,8).reduceLeft( (x, y) = x + y )
+			List(1,2,3,6,4,3,5,6,9,6,5,8).reduceRight( (x, y) = x + y )
+
+		
+  4. mapValues		P: U => V
+			Operates only on map objects
+			Transforms the value part of the key-value pairs		
+
+			val m1 = Map( 1 -> 10, 2 -> 20, 3 -> 30, 4 -> 40 )
+			val m2 = m1.mapValues(v => (v, 1))
+			m2: scala.collection.immutable.Map[Int,(Int, Int)] = Map(1 -> (10,1), 2 -> (20,1), 3 -> (30,1), 4 -> (40,1))
+
+
+  5. flatMap		P: U -> GenTranversableOnce[V]
+			flatMap flattens the iterables returned by the function.
+
+			val l1 = Source.fromFile("E:\\Spark\\wordcount.txt").getLines.toList
+			val words = l1.flatMap(x => x.split(" ")) 
+			
+
+
+  6. sortWith		P: U => <binary sorting expression>
+			Elements of the collection are sorted based on the binary sorting function
+
+			words.sortWith( (x,y) => x.length < y.length )
+
+
+  7. groupBy		P: U => V
+			Returns a map, where
+				key: each unique value of the function output
+				values: Iterable with all the values that produced the key.
+
+			words.groupBy(x => x).mapValues( _.length )
+			
+
+
+   Use-Case: Wordcount program using Scala HOFs
+
+	val file = raw"E:\Spark\wordcount.txt"
+     
+        val data = Source.fromFile(file)
+                 .getLines
+                 .flatMap(x => x.split(" "))
+                 .toList
+                 .groupBy(w => w)
+                 .mapValues(l => l.length)
+                 .toList
+                 .sortWith( (x,y) => x._2 > y._2 )
+                 
+
+
+   Object Oriented Programming in Scala
+   -------------------------------------
+
+	-> class   	=> class, case class, abstract class, sealed class
+	-> object	=> object, case object
+	-> trait
+	-> package object
+
+
+   Class
+   -----
+	-> In Scala, a class is not declared as public. 
+	-> A Scala source file can contain multiple classes, and all of them have public visibility. 
+	-> All class methods and properties are 'public' by default
+	-> Scala provides getter and setter methods for every field.
+	-> A class can inherit (extend) only one other class. 
+	-> A class can extend multiple traits
+	
+
+   Constructors
+   -------------
+
+	-> In Scala, every class should have one primary constructor 
+	    and optionally  additional auxiliary constructors.
+
+	-> The auxiliary constructors are defined with method 'this'. 
+	   Each auxiliary constructor must start with a call to a previously defined 
+	   auxiliary constructor or the primary constructor.
+
+	-> In Scala, every class has a primary constructor. 
+	   The primary constructor is not defined with a this method. 
+	   It is interwoven with the class definition.
+
+	-> The parameters of the primary constructor are placed immediately after the class name. 
+	   The primary constructor executes all statements in the class definition.
+
+
+
+	import scala.io._
+	import scala.math._
+
+	object Demo1 extends App {
+				
+		val p1 = new Person()                	// calling PC
+		p1.setName("Raju")
+		p1.setAge(45)
+		p1.printProperties()
+			
+		println("-------------------------")
+		
+		val p2 = new Person(2)              	// calling AC 1
+		p2.setName("Ramesh")
+		p2.setAge(35)
+		p2.printProperties()
+		
+		println("-------------------------")   
+		
+		val p3 = new Person(3, "Ravi")     	// calling AC 2
+		p3.setAge(35)
+		p3.printProperties()
+		
+		println("-------------------------") 
+		
+		val p4 = new Person(3, "Rajesh", 25)     // calling AC 2
+		p4.printProperties()
+		
+	}
+
+	class Person {  
+	   
+	   private var _id = -1
+	   private var _name = "Anonymous"
+	   private var _age = -1  
+	   
+	   println("Executing primary constructor")
+	   //println(_id, _name, _age)
+	   
+	   // AC - 1
+	   def this(id: Int) {
+		 this()       // calling PC
+		 this._id = id
+		 println("Executing auxiliary constructor with no parameters")
+	   }
+	   
+	   // AC - 2
+	   def this(id: Int, name: String) {
+		 this(id)
+		 this._name = name
+		 println("Executing auxiliary constructor with 2 parameters")
+	   }
+	   
+	   // AC - 3
+	   def this(id: Int, name: String, age: Int) {
+		 this(id, name)
+		 this._age = age
+		 println("Executing auxiliary constructor with 3 parameters")
+	   }
+		  
+	   def getId = _id   
+	   //def setId(id: Int) = this._id = id
+	   
+	   def getName = _name
+	   
+	   def setName(name: String) = this._name = name
+	   
+	   def getAge = _age
+	   
+	   def setAge(age: Int) = {
+		 if (this._age < age) this._age = age     
+	   }
+	   
+	   def printProperties() {
+		 println(s"id = ${_id}, name=${_name}, age=${_age}")
+	   }
+	}
+
+
+  Object
+  ------
+    
+	-> Object is a singleton entity
+	-> Objects will have only singleton methods
+	-> Object can have only primary constructor (no aux. constructor)
+	-> The PC of the object is invoked the first time the object is referenced.   
+
+	object Address {
+	  
+	  println("==============================")
+	  println("Execution Address constructor")
+	  
+	  def getAddress(location_id: Int) = {
+		 if (location_id == 1) "Address 1"
+		 else if (location_id == 2) "Address 2"       
+		 else if (location_id == 3) "Address 3"       
+		 else "Other Address"
+	  }
+	}
+
+
+	object Demo1 extends App {
+		 
+	   var e1 = new Emp(100, "Raju", 1)
+	   var e2 = new Emp(101, "Ravi", 2)   
+			
+	   println( Address.getAddress(e1.pLoc) )
+	   println( Address.getAddress(e2.pLoc) )
+	   println( Address.getAddress(5) )
+	}
+
+
+
+  Companion object
+  ----------------
+      -> Is used to add a singlton method for a class
+      -> A companion object will have same name as the class and is defined in the same file
+
+
+  Trait
+  -----
+      -> Similar to an "interface" in Java, but with some additional features.
+      -> A trait can have both abstract and concrete methods.
+      -> We can have fields inside a trait
+      -> A class can extend any number of traits (but can extend only one class)
+
+
+  Case class
+  ----------
+	-> Case Class is a special type of class
+	-> It has all the features of a regular class but a few methods will be provided out of box.
+	
+		-> apply, unapply
+		-> toString, hash, copy, equals
+
+	-> Case classes are specifically used for pattern matching. 
+
+ ================================================================================
+
+   Spark
+   -----
+	-> Is an in-memory distributed computing framework for performing big data analytics
+		in-memory -> ability to persist intermediate results in RAM (memory)
+
+	-> Spark in written in SCALA
+		
+	-> Spark is a 'unified' analytics framework
+	
+	-> Spark is a polyglot
+               Supports Scala, Java, Python and R
+
+	-> Spark apps can run on multiple cluster managers or can run on local machine also
+		Spark standalone, YARN, Mesos, Kubernetes
+	
+
+   Spark unified framework
+   -----------------------
+	-> Spark provides a consistent set of libraries for performing different analytics workloads
+	   using the same execution engine and some well-defined data abstractions
+
+	-> Spark APIs
+
+		Spark Core    	=> Low-level API (RDD API)
+		Spark SQL	=> For Batch Processing of structured data
+		Spark Streaming	=> For Streaming Ananlytics
+		Spark MLLib	=> For Predictive Analytics (Machine Learning)
+		Spark GraphX	=> For Graph Parallel Computations
+
+
+   Spark Architecture
+   ------------------
+
+    	1. Cluster Manager
+		-> Jobs are submitted to CMs
+		-> Allocates containers for lauching driver and executors on the cluster. 
+		-> Spark supports multiple CMs
+			-> local, Standalone, YARN, Mesos, Kubernetes		
+
+	2. Driver
+		-> Master process
+		-> Runs the SparkContext object
+		-> Manages the user code and sends the tasks to the executors as per the code. 
+
+		Deploy Modes:
+		1. Client : default, driver runs on the client. 
+		2. Cluster : driver runs on one of the nodes on the cluster.
+
+	3. SparkContext
+		-> Is an application context
+		-> Starting point of execution
+		-> Is the link between the driver and tasks running on the executors
+
+	4. Executors
+		-> receives the tasks from the Driver
+		-> all tasks runs the same execution code but on different partitions of the data
+		-> the status of tasks are reported to the driver. 
+	
+
+  
+   Getting started with Spark
+   --------------------------  	
+
+    1. Use your lab
+    2. Setup the IDE on your local machine
+    3. Using Databricks cluster (use Databricks community edition)
+
+
+   Creating a Spark project using Maven
+   ------------------------------------
+
+	Setting up a Maven Spark Application:
+
+	  => Open Scala IDE
+	  => File -> New -> Scala Project
+		 -> Make sure jdk1.8 is selected
+		 -> Cleck Finish
+	  => (Optional) Change you Scala compiler version to 2.11
+		 -> Right-click on you project
+		 -> Scala -> Set Scala Installation -> Select 2.11.11
+	  => Convert into Maven application 
+		 -> Right-click on you project
+		 -> Configure -> Conert to Maven -> Accept default -> Finish
+	  => Open pom.xml file (close it and open it one more time if it is not showing pom.xml link)
+		 -> Open pom.xml tab (towards the bottom)
+		 -> add <dependencies></dependencies> XML tag
+		 -> Add required dependencies between <dependencies> tag
+
+	  => MVN Repository Link: https://mvnrepository.com/artifact/org.apache.spark
+
+
+  RDD (Resilient Distributed Dataset)
+  -----------------------------------
+
+     -> RDD represents a collections of distributed in-memory partitions (that are executed in parallel)
+        -> A partition is a collection of objects of some type
+
+     -> RDDs are immutable
+
+     -> RDDs are lazily evaluated
+	-> transormations does not cause execution
+	-> action commands trigger execution (and launch jobs on the cluster)
+
+
+  Creating RDDs
+  -------------
+	Three ways:
+
+	1. Create an RDD from external datasets
+
+		val rddFile = sc.textFile(<dataPath>, 4)
+
+	2. Create an RDD from programmatic data
+
+		val rdd1 = sc.parallelize( List(3,2,1,4,2,3,5,7), 2 )
+
+	3. By applying transformations on existing RDDs
+	
+		val rddWords = rddFile.flatMap(x => x.split(" "))
+
+
+  RDD Operations
+  --------------
+	Two operation
+
+	1. Transformations
+		-> Does not cause execution
+		-> Only create lineage DAGs
+
+	2. Actions
+		-> Trigger execution
+		-> Produces output
+
+
+  RDD Lineage DAG
+  ---------------
+  -> RDD Lineage DAg is a logical plan created when the RDD is created
+  -> Maintained by the driver
+  -> Contains a heirarchy of dependencies all the way from the very first RDD. 
+
+
+	val rddFile = sc.textFile("E:\\Spark\\wodcount.txt", 4)
+
+(4) E:\Spark\wordcount.txt MapPartitionsRDD[3] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[2] at textFile at <console>:24 []
+
+
+	val rddWords = rddFile.flatMap(x => x.split(" "))
+
+(4) MapPartitionsRDD[4] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[3] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[2] at textFile at <console>:24 []
+
+
+	val rddPairs = rddWords.map( x => (x,1) )
+
+(4) MapPartitionsRDD[5] at map at <console>:25 []
+ |  MapPartitionsRDD[4] at flatMap at <console>:25 []
+ |  E:\Spark\wordcount.txt MapPartitionsRDD[3] at textFile at <console>:24 []
+ |  E:\Spark\wordcount.txt HadoopRDD[2] at textFile at <console>:24 []
+
+
+	val rddWc = rddPairs.reduceByKey( (x,y) => x + y )
+
+(4) ShuffledRDD[6] at reduceByKey at <console>:25 []
+ +-(4) MapPartitionsRDD[5] at map at <console>:25 []
+    |  MapPartitionsRDD[4] at flatMap at <console>:25 []
+    |  E:\Spark\wordcount.txt MapPartitionsRDD[3] at textFile at <console>:24 []
+    |  E:\Spark\wordcount.txt HadoopRDD[2] at textFile at <console>:24 []
+
+
+	rddWc.collect()
+	rddWc.saveAsTextFile(<Path>)
+
+
+
+  Types of Transformations
+  ------------------------
+	
+	1. Narrow Transformations
+
+
+	2. Wide Transformations
+
+
+  RDD Persistence
+  ---------------
+	rdd1 = sc.textFile(<dataPath>, 10)
+	rdd2 = rdd1.t2(..)
+	rdd3 = rdd1.t3(..)
+	rdd4 = rdd3.t4(..)
+	rdd5 = rdd3.t5(..)
+	rdd6 = rdd5.t6(..)
+	rdd6.persist()   ---> instruction to Spark to save rdd6 partitions
+	rdd7 = rdd6.t7(..)
+
+	rdd6.collect()
+	lineage DAG => (10) rdd6 -> rdd5.t6 -> rdd3.t5 -> rdd1.t3 -> sc.textFile
+		[textFile, t3, t5, t6] -> collected.
+
+	rdd7.collect()
+	lineage DAG => (10) rdd7 -> rdd6.t7
+		[t7] -> collected.
+
+	rdd6.unpersist()
+
+
+	StorageLevels
+        -------------
+	MEMORY_ONLY		=> default, Memory Deserialized 1x Replicated
+	MEMORY_AND_DISK		=> Disk Memory Deserialized 1x Replicated
+	DISK_ONLY		=> Disk Serialized 1x Replicated
+	MEMORY_ONLY_SER		=> Memory Serialized 1x Replicated
+	MEMORY_AND_DISK_SER	=> Disk Memory Serialized 1x Replicated
+	MEMORY_ONLY_2		=> Memory Deserialized 2x Replicated
+	MEMORY_AND_DISK_2	=> Disk Memory Deserialized 2x Replicated
+	
+
+       Commands
+       --------
+	rdd1.cache()					=> in-memory persistence
+	rdd1.persist()					=> in-memory persistence
+	rdd1.persist(StorageLevel.MEMORY_AND_DISK)	=> with specific storage-level
+
+	rdd1.unpersist()
+
+
+
+  Spark Executor Memory Structure
+  -------------------------------
+     
+      Let us say we are requesting an executor with 10 GB RAM. 
+      The spark job will be allocated executors with 10.3 GB (10GB + 300MB) RAM. 
+     
+      
+      1. Reserved Memory (300 MB)
+           -> Spark's internal usage
+      
+      2. Spark Memory (spark.memory.fraction: 0.6)   => 6 GB (Unified Memory)
+          
+         2.1  Execution Memory
+                 -> Used for RDD partition creating and transformations
+                 -> Can forcibly evict RDD partitions from storage memory if it requires
+                    additional memory upto the quote allocated for it.
+
+         2.2  Storage Memory (spark.memory.storageFraction: 0.5) => 3 GB
+                 -> The RDD partitions and broadcast variables are persisted
+                    in this memory.
+
+      3. User Memory  => 4 GB
+         -> Running non-spark related code execution. 
+         -> Related to running python methods, storing python collection.
+
+
+  RDD Transformations
+  --------------------
+   
+  A transformation applied on an RDD with the ouput RDD.
+ 
+  1. map		P: U => V
+			object to object transformation
+			Transforms the input object by applying the function
+			input RDD: N objects, output RDD: N objects
+
+		val rdd2 = rdd1.map( x => x*10 )
+
+
+  2. filter		P: U => Boolean
+			Returns only those object for which the function returns True
+			input RDD: N objects, output RDD: <= N objects
+	
+		rddWords.filter(x => x.length == 3).collect
+
+
+  3. glom		P: None
+			Returns one Array per partition with all the values of the partition
+
+		rdd1		rdd2 = rdd1.glom()
+
+		P0: 4,3,1,4,5 => glom => P0: Array(4,3,1,4,5)
+		P1: 7,8,9,0,9 => glom => P1: Array(7,8,9,0,9)
+		P2: 4,2,9,0,8 => glom => P2: Array(4,2,9,0,8)
+
+		rdd1.glom.map(x => x.length).collect
+
+
+  4. flatMap		P: U => TraversableOnce[V]
+			flatMap flattens the iterables returned by the function.
+			input RDD: N objects, output RDD: >= N objects
+		
+		val rddWords = rddFile.flatMap(x => x.split(" "))
+
+
+  5. mapPartitions	P: Iterator[U] -> Iterator[V]
+			partition to partition transformation
+
+
+		val rdd2 = rdd1.mapPartitions( p => p.map(x => (x, x)) )
+		val rdd2 = rdd1.mapPartitions( p => List(p.toList.sum).iterator ).collect
+
+
+  6. mapPartitionsWithIndex    P: (Int, Iterator[U]) -> Iterator[V])
+			Similar to mapPartitions, but gives you the partition-index as additional argument
+
+		rdd1.mapPartitionsWithIndex( (i, p) => p.map(x => (i, x*10))).collect()
+		rdd1.mapPartitionsWithIndex( (i, p) => List((i, p.sum)).iterator ).glom().collect()
+
+
+  7. distinct		P: None, Optional: numPartitions
+			Returns distinct objects of the RDD
+
+		rddWords.distinct.collect
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  RDD Actions
+  -----------
+
+  1. collect    => returns an Array with all the objects of the RDD to the driver.
+
+  2. count      => returns the count of objects in the RDD
+
+  3. saveAsTextFile  => Save each partition of the RDD as a separate text-file in the specified non-existing directory.
+
+
+
+
+
+
