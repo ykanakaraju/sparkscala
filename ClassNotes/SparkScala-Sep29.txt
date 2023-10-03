@@ -1322,17 +1322,172 @@
 		[app arguments]
 
 
+ ===========================================================
+      Spark SQL (org.apache.spark.sql)
+ ===========================================================
 
+    -> Is a high-level API built on top of Spark Core API
 
-
-
-
-
-
-
-
-
+    -> Spark's strutured data processing API
 	
+	File Formats: Parquet (default), ORC, JSON, CSV (delimited text file) and Text
+	JDBC Format : RDBMS & NoSQL Database
+	Hive Format : Hive Warehouse
+
+
+    SparkSession
+    ------------
+	-> Starting point of execution. 
+	-> Represents a user-session (with its own configuration) inside an application.
+
+	val spark = SparkSession
+              .builder
+              .master("local[2]")
+              .appName("DataSourceBasic")
+              .getOrCreate()
+
+
+   Spark SQL Data Abstractions
+   ---------------------------
+
+   -> Dataset[U]  : Can be thought of as a special type of RDD with schema attcahed to it.
+		    Typed entity (can have JVM types)
+		    RDD<U> + schema
+
+   -> DataFrame   : Is a special case of Dataset with Row objects
+		    DataFrame is an alias of Dataset[Row]
+		    Collection of partitions containing Ro objects
+		    Not a typed entity
+
+
+   -> Dataset and DataFrame have two components:
+		
+	-> Data   : Row objects (in the case of DFs), or any other object (in the case of Dataset)
+	-> Schema : StructType object
+
+		StructType(
+			StructField(age,LongType,true), 
+			StructField(gender,StringType,true), 
+			StructField(id,LongType,true), 
+			StructField(name,StringType,true)
+		)	
+
+
+
+   Basic Steps in a Spark SQL Applications
+   ---------------------------------------
+
+   1. Creating a DataFrame from some source.
+
+	val df1 = spark.read.format("json").load(inputPath)
+	val df1 = spark.read.json(inputPath)
+
+
+   2. Apply transformations on the DF using DF Transformation methods or using SQL
+
+	Using DF Transformation methods
+	--------------------------------
+
+   	   	val df2 = df1.select("userid", "name", "gender", "age", "phone")
+              	 	.where("age is not null")
+               		.orderBy("gender", "age")
+               		.groupBy("age").count()
+               		.limit(4)
+
+	Using SQL
+	---------
+		   spark.catalog.listTables().show()		   
+		   df1.createOrReplaceTempView("users")
+		   
+		   val qry = """select age, count(1) as count
+				from users
+				where age is not null	            
+				group by age
+				order by age
+				limit 4""" 
+
+		   val df3 = spark.sql(qry)		   
+		   df3.show()
+   
+
+   3. Save the DF to some file/DB etc.
+	  
+	val outputPath = "./data/output/json"   
+   	df2.write.format("json").save(outputPath)
+	df2.write.json(outputPath)
+
+
+  SaveMode
+  ---------
+     -> Determines what should happen when you are writing to an existing directory.
+
+	ErrorIfExists (default)
+	Ignore
+	Append
+	Overwrite
+
+	df2.write.mode(SaveMode.Overwrite).json(outputPath)
+
+
+  Local Temp Views
+  -----------------
+
+      df.createOrReplaceTempView("flights")
+      spark.catalog.listTables().show()
+     
+      val qry = """select * from flights
+                   where count > 100
+                   order by count desc 
+                   limit 30"""
+     
+      val df2 = spark.sql(qry)
+      df2.show()
+
+		
+  Global temp Views
+  -----------------
+
+     df.createGlobalTempView("g_flights")
+     spark.catalog.listTables().show()
+     
+     val qry = """select * from global_temp.g_flights
+                   where count > 100
+                   order by count desc 
+                   limit 30"""
+     
+     val df2 = spark.sql(qry)
+     df2.show()     
+     
+     val spark2 = spark.newSession()
+     spark2.catalog.listTables().show()
+     
+     val df3 = spark2.sql(qry)
+     df3.show()
+
+
+  DataFrame Transformation Methods
+  --------------------------------
+
+  1. select
+
+
+  2. where
+
+
+  3. orderBy
+
+
+  4. groupBy => Returns a "RelationalGroupedDataset" object
+		Apply some aggregation method to return a DataFrame
+
+
+  5. limit
+
+
+  Working with different file formats
+  -----------------------------------
+
+
 
 
 
