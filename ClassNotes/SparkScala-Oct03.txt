@@ -1323,7 +1323,155 @@
 
 
 
+ =======================================================
+    Spark SQL  (org.apache.spark.sql)
+ =======================================================
 
+
+    => Spark's structured data processing API
+
+	  Structured data formats: Parquet (default), ORC, JSON, CSV (delimited text file)
+	  JDBC format: RDBMS, NoSQL
+	  Hive Format: To process Hive data
+
+    => SparkSession
+	
+	 -> Starting point of execution. 	 
+	 -> Introduced from Spark 2.0 onwards	 
+    -> SparkSession represents a user-session running inside an application.	
+	 -> We can have multiple sessions inside an application.
+
+	   val spark = SparkSession
+              .builder
+              .master("local[2]")              
+              .appName("DataSourceBasic")
+              .getOrCreate()   
+
+           import spark.implicit._ 
+
+
+  Spark SQL Data Abstarctions:
+  ----------------------------
+	
+	=> Dataset
+		=> Collection of typed objects
+
+        => DataFrame
+		=> Collection of "Row" objects
+		=> Alias of Dataset[Row]
+
+	=> Dataset and DataFrame have two components:
+		-> Data : Row objects (in the case of DFs), or any other object (in the case of Dataset)
+		-> Schema : StructType object
+
+		StructType(
+			StructField(age,LongType,true), 
+			StructField(gender,StringType,true), 
+			StructField(id,LongType,true), 
+			StructField(name,StringType,true)
+		)
+
+
+   Basic steps in working with Spark SQL
+   -------------------------------------
+
+    1. Creating DataFrame from some data source
+
+		val df1 = spark.read.format("json").load(inputPath)
+		val df1 = spark.read.json(inputPath)
+
+    2. Apply transformations on the DataFrames
+
+	-> Using DF Transformation Methods
+
+     		   val df2 = df1.select("id", "name", "age", "gender")
+                  		.where("age is not null")
+                  		.orderBy("age", "name")
+                  		.groupBy("age").count()
+                  		.limit(5)
+	-> Using SQL
+
+		//import spark.{sql, table}
+
+		df1.createOrReplaceTempView("people")     
+     		spark.catalog.listTables().show()
+     
+     		val df3 = spark.sql("select * from people where age is not null")
+     		df3.show()     
+     
+     		val df4 = spark.table("people")
+     		df4.show()
+
+    3. Save the DataFrame to a strcutured file format / database / hive etc. 
+
+ 		val outputPath = "output/json"
+  
+     		df2.write.format("json").save(outputPath)
+		df2.write.json(outputPath)    
+
+		df2.write.mode(SaveMode.Overwrite).json(outputPath)  
+ 
+
+   Save Modes
+   -----------
+
+	1. ErrorIfExists (default)
+	2. Ignore
+	3. Append
+	4. Overwrite
+
+	df2.write.mode(SaveMode.Append).json(outputPath)   
+	df2.write.mode(SaveMode.Overwrite).json(outputPath)   
+
+
+  Local Temp Views
+  -----------------
+      df.createOrReplaceTempView("flights")
+      spark.catalog.listTables().show()
+     
+      val qry = """select * from flights
+                   where count > 100
+                   order by count desc 
+                   limit 30"""
+     
+      val df2 = spark.sql(qry)
+      df2.show()
+
+		
+  Global Temp Views
+  -----------------
+     df.createGlobalTempView("g_flights")
+     spark.catalog.listTables().show()
+     
+     val qry = """select * from global_temp.g_flights
+                   where count > 100
+                   order by count desc 
+                   limit 30"""
+     
+     val df2 = spark.sql(qry)
+     df2.show()     
+     
+     val spark2 = spark.newSession()
+     spark2.catalog.listTables().show()
+     
+     val df3 = spark2.sql(qry)
+     df3.show()
+
+
+
+   DataFrame Transformations
+   -------------------------
+
+   1. select
+
+   2. where / filter		
+
+   3. orderBy / sort
+
+   4. groupBy	=> RelationalGroupedDataset		
+
+   5. limit
+	      
 
 
 
