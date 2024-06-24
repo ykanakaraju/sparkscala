@@ -1,0 +1,254 @@
+  
+  Curriculum (52 hours)
+  ---------------------------
+  Scala
+     	-> Basics		
+	-> Functional programming
+	-> Object oriented programming
+	-> Pattern matching 
+  Spark Core API Basics
+	-> RDD - Transformations & Actions
+	-> Spark shared variables
+   Spark Submit command
+   Spark SQL
+	-> DataFrame Operations
+	-> Integrations - RDBMS & Hive
+   Spark Streaming
+	-> Structured Streaming
+   Spark Performance Tuning
+
+
+   Materials        
+   ---------
+	-> PDF Presentations
+	-> Code Modules - Scala & Spark
+	-> Class Notes
+	-> Databricks Notebooks (DBC file)
+	-> Github: https://github.com/ykanakaraju/sparkscala
+
+  
+  Getting started with Scala
+  --------------------------
+   
+      1. vLab - Lab allocated to you. 
+	
+	 -> Follow the instructions given in the attached document.
+	 -> You will be loging into a Window Server
+	     -> Here you find a document on the desktop with useris and password. 
+	 -> Click on the "Oracle VM Virtualbox" and connect to Ubuntu lab. 
+
+	 => here you can open a terminal and connect to Spark shell (type "spark-shell")
+	 => You can also launch "Eclipse" 
+   
+  
+     2. Setting up your own environemnt on your personal machine. 
+
+	   Pre-requisite: Java 8
+	   => Open a terminal and type "java -version" (it has to be 1.8.xxx or up)
+		
+	   1. Scala IDE (version of Eclipse)
+		URL: http://scala-ide.org/download/sdk.html
+
+		Download Scala IDE for your OS and unzip it to a suitable location
+		Navigate into the unzipped folder and click on "Eclipse" application icon to launch Scala IDE.
+
+	   2. IntelliJ
+		Follow the instructions @ https://docs.scala-lang.org/getting-started/index.html
+		
+	        Two build tools for Scala:
+		-> Maven (Scala IDE + Maven)  
+		-> SBT  (IntelliJ + SBT)
+
+
+     3. Signup to "Databricks Community" Edition Free account.
+
+		URL to Signup : https://databricks.com/try-databricks
+		URL to Login: https://community.cloud.databricks.com/login.html
+	
+
+  Scala
+  -----
+     
+     -> SCAable LAnguage -> SCALA
+      -> Scala is a JVM based Language
+	
+      -> Scala is multi-paradigm programming language.
+	
+	-> Objected Oriented Programming
+	-> Functional Programming
+
+	-> Scala is BOTH object-oriented & functional programming.
+
+      -> Scala is a statically (strongly) typed language
+           -> The data type of every variable is fixed and known at compile time
+
+      => Scala "Pure Object Oriented" programming language.
+	   -> Every data point is a "object" in scala
+	   -> There are no premitives in Scala
+
+		val i = 10
+		val j = 20
+		val k = i + j
+                    => In the above statement i & J are Int objects
+		    =>  '+' is a method			
+
+      Scala Variables and Values
+		val -> immutable values
+	       	once a value is assigned, you can not change it.
+
+		var -> mutable variable
+	       	the value can be changed after assignment
+
+      Type Declaration:   
+		-> val i : Int = 10
+
+
+      Scala Type Inference
+         	-> Scala can implicitly infer the types based on the assigned value.
+	 	-> We do not have to explicitly declare data types.
+
+      Scala is PURE object oriented language
+      --------------------------------------	
+      -> Scala does not have primitives or operators.	
+      -> In scala, all data is objects and operations are method invocations.
+
+	  val i = 10.*(40)  
+   
+             -> 10 is an Int object
+	     -> * is a method invoked on 10 (Int object)
+	     -> 40 is an Int object passed as a parameter
+	     -> i is an Int object returned by the * method.
+		
+      -> <obj>.method<param1> => <obj> method<param1> => <obj> method param1
+
+
+      Scala Blocks
+      ------------
+	 => A block any code enclosed in  { }
+	 => A block is scala has a return value.
+	 => The block returns the value of the last expression that is executed.
+
+         Scala Unit => In Scala "Unit" is an object that represents "no value"
+		    prined as "()"
+
+
+      Scala Class Hierarchy 
+      ---------------------
+	   Any 	=> AnyVal  => Int, Long, Boolean, Unit, Byte, Char, ...
+		=> AnyRef  => String, List, Map, ....
+
+
+	=> 'Unit' represents no value.
+	   prints as ()
+
+
+      String Interpolations
+      ---------------------
+	s => Allows you to invoke variables using $ sybmol
+		ex: val str = f"i = $i\nj = $j\nk = $k"
+
+	f => s interpolator + can use formatting symbols
+		ex: val str = f"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+        raw => s interpolator + escapes the escape chars
+		val str = raw"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+	
+	printing output
+        ----------------
+	val name = "Raju"
+    	val age = 48
+    	val height = 5.9
+    
+	print(name)
+	println(name)
+    	println(name, age, height)
+	println("name: %f, age: %f".format(name, age))
+
+
+      String Interpolations
+      ---------------------
+	s => Allows you to invoke variables using $ sybmol
+		ex: val str = f"i = $i\nj = $j\nk = $k"
+
+	f => s interpolator + can use formatting symbols
+		ex: val str = f"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+        raw => s interpolator + escapes the escape chars
+		val str = raw"i = $i%.2f\nj = $j%.2f\nk = $k"
+
+
+      Reading Data from StdIn
+      -----------------------
+
+      val name = StdIn.readLine("Enter your name: ")
+     
+      println("Enter your age: ")  
+      val age = StdIn.readInt() 
+    
+      println("Enter your height: ")  
+      val ht = StdIn.readDouble() 
+      
+      println(s"Name: $name,  Age: $age, Height: $ht") 
+
+
+
+
+      Flow Control Constructs
+      -----------------------
+	1. if .. else if .. else
+
+		 val x = if (i < 100) "true" else if (i > 100) i - 100 else 0L
+		 (here x is Any type)
+
+		In scala, if condition returns a value
+		The type of the value returned is the common-denomitor class of various branches if if condition.
+
+        2. match .. case
+
+		 .. to be continued
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
